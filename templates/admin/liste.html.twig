@@ -1,4 +1,4 @@
-{% extends '../base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Liste des utilisateurs {% endblock %}
 
@@ -28,7 +28,7 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.password }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">voir en détail</a>
+                    <a href="{{ path('app_admin_show', {'id': user.id}) }}">voir en détail</a>
 {#                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>#}
                 </td>
             </tr>
