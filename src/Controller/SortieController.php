@@ -26,7 +26,6 @@ class SortieController extends AbstractController
             ->add('site', EntityType::class, [
                 'placeholder' => '--Veuillez choisir une ville--',
                 'class' => Ville::class,
-                'multiple' => true,
                 'choice_label' => 'nom'
             ])
             ->add('dateDebut', DateType::class, ['widget' => 'single_text'])
