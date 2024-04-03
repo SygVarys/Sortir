@@ -40,6 +40,7 @@ class UserType extends AbstractType
             ])
             ->add('isActif')
             ->add('isAdmin')
+
         ;
     }
 
