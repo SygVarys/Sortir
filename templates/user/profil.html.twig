@@ -1,0 +1,36 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}profil{% endblock %}
+
+{% block body %}
+
+    <h1 class="h3 mb-3 font-weight-normal">profil</h1>
+
+
+
+
+
+    {{ user.prenom }}
+    {{ user.nom }}
+    {{ user.telephone }}
+    {{ user.email }}
+    {{ user.Password }}
+    {{ user.poster }}
+
+
+
+    <div class="image">
+        {% if user.poster is not empty %}
+            <img src="{{ asset('img/avatar/' ~ user.poster) }}">
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-lg btn-primary">enregistrer</button>
+
+    <form method="post" action="{{ path('user_update', {'id': user.id}) }}">
+        <button type="submit" class="btn btn-secondary">Modify</button>
+    </form>
+
+
+{% endblock %}
