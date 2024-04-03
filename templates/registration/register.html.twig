@@ -37,10 +37,7 @@
             {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'autocomplete': 'new-password'}}) }}
         </div>
 
-        <div class="form-check mb-3">
-            {{ form_widget(registrationForm.agreeTerms, {'label': "Je suis d'accord avec les conditions", 'attr': {'class': 'form-check-input'}}) }}
-            <label class="form-check-label" for="agreeTerms">Je suis d'accord avec les conditions</label>
-        </div>
+
 
         <button type="submit" class="btn btn-lg btn-primary">S'enregistrer</button>
         {{ form_end(registrationForm) }}

@@ -18,7 +18,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_register') }}"
                        title="Go back to log">
-                        register
+                        s'inscrire
                     </a>
                 </li>
 
@@ -42,11 +42,19 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_sortie_index') }}"
                            title="Go back to about">
-                            sortie
+                            sorties
                         </a>
                     </li>
                 {% endif %}
 
+                {% if is_granted('IS_AUTHENTICATED') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_profil') }}"
+                           title="Go back to about">
+                            Profil
+                        </a>
+                    </li>
+                {% endif %}
 
 
                 {#                {% if is_granted('IS_AUTHENTICATED') %}#}
