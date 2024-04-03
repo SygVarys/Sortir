@@ -4,6 +4,23 @@
 
 {% block body %}
 
+    <p id="texte" style="display: flex;white-space: pre-line;margin: 25px">Bienvenue sur Sortir, votre guide ultime pour des sorties entre amis inoubliables !
 
+    Que vous recherchiez un dîner entre amis dans un restaurant branché, une soirée animée dans un bar tendance, ou même une journée d'aventures excitantes, Sortir est là pour vous aider à planifier chaque moment.
 
+    Notre plateforme vous offre une multitude d'options pour satisfaire tous les goûts et toutes les envies. Explorez notre sélection variée de restaurants, bars, cafés, salles de jeux, centres de divertissement, et bien plus encore. Peu importe vos préférences, vous trouverez sûrement l'endroit parfait pour passer du bon temps avec vos amis.
+
+    Et ce n'est pas tout ! Avec Sortir, la planification de vos sorties devient un jeu d'enfant. Parcourez nos listings détaillés et réservez facilement en ligne pour garantir votre place. Fini les tracas de dernière minute, grâce à notre plateforme intuitive, vous pouvez organiser vos sorties en un clin d'œil.
+
+    De plus, notre équipe est constamment à l'affût des dernières tendances et des nouveaux lieux à découvrir. Nous mettons régulièrement à jour notre sélection pour vous offrir toujours plus de choix et de nouveautés.
+
+    Alors, que vous soyez à la recherche d'une soirée relaxante entre amis ou d'une aventure excitante, faites confiance à Sortir pour vous guider vers des expériences inoubliables. Rejoignez-nous dès maintenant et préparez-vous à vivre des moments mémorables avec vos proches !
+</p>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var texteElement = document.getElementById('texte');
+            texteElement.innerHTML = texteElement.innerHTML.replace(/\./g, '.<br>');
+        });
+    </script>
 {% endblock %}
