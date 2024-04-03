@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +24,16 @@ class UserType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('email')
-//            ->add('roles')
+            ->add('roles', ChoiceType::class,[
+                'placeholer'=> '--Choisissez le rôle du nouvel utilisateur--',
+                'choice' => [
+                    'Role_Admin'=>'ROLE_ADMIN',
+                    'Role_User'=>'ROLE_USER'
+                ],
+                'row_attr' => [
+                    'class' => 'input-group mb-3'
+                ]
+            ])
             ->add('password', PasswordType::class, [
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
