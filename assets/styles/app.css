@@ -9,8 +9,8 @@ header a {
     color: inherit;
 }
 .header-logo img {
-    max-width: 42px;
-    margin-right: 5px;
+    max-width: 142px;
+    margin-right: 50px;
 }
 header nav a:hover {
     text-decoration: underline;
