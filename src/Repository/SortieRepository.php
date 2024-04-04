@@ -32,6 +32,7 @@ class SortieRepository extends ServiceEntityRepository
                     JOIN s.lieu l
                     JOIN l.ville v 
                     WHERE v.nom = :nomVille');
+            if ($filtre[dateDebut])
             $query->setParameter('nomVille', $filtre['site']->getNom() );
             return $query->getResult();
 
