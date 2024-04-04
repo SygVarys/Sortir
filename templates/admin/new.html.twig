@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créer un nouvel utilisateur{% endblock %}
+{% block title %}Modifier utilisateur{% endblock %}
 
 {% block body %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Création d'un nouvel utilisateur</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Modifier un utilisateur</h1>
     <form method="post">
         <div class="mb-3">
             {{ form_errors(formUser) }}
@@ -32,10 +32,12 @@
             {{ form_widget(formUser.telephone, {'attr': {'class': 'form-control'}}) }}
         </div>
 
-        <div class="mb-3">
-            <label for="inputPassword" class="form-label">Mot de passe</label>
-            {{ form_widget(formUser.password, {'attr': {'class': 'form-control', 'autocomplete': 'new-password'}}) }}
-        </div>
+{#       <div class="mb-3">#}
+{#            <label for="inputPassword" class="form-label">Mot de passe</label>#}
+{#            {{ form_widget(formUser.password, {'attr': {'class': 'form-control'#}
+{#                , 'autocomplete': 'new-password'#}
+{#            }}) }}#}
+{#        </div>#}
 
 {#        <div class="form-check mb-3">#}
 {#            {{ form_widget(formUser.roles, {'label': "roles", 'attr': {'class': 'form-check-input'}}) }}#}
@@ -50,10 +52,12 @@
 {#            <label class="form-check-label" for="isAdmin">Admin</label>#}
 {#        </div>#}
 
-{#        <div class="form-check mb-3">#}
-{#            {{ form_widget(formUser.isActif, {'label': "isActif", 'attr': {'class': 'form-check-input'}}) }}#}
-{#            <label class="form-check-label" for="isActif">Actif</label>#}
-{#        </div>#}
+
+
+        <div class="form-check mb-3">
+            {{ form_widget(formUser.isActif, {'label': "isActif", 'attr': {'class': 'form-check-input'}}) }}
+            <label class="form-check-label" for="isActif">Actif</label>
+        </div>
 
         <button type="submit" class="btn btn-lg btn-primary">Enregistrer</button>
         {{ form_end(formUser) }}

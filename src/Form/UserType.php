@@ -36,20 +36,20 @@ class UserType extends AbstractType
 //                    'class' => 'input-group mb-3'
 //                ]
 //            ])
-            ->add('password', PasswordType::class, [
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => "Merci d'entrer un mot de passe",
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
-                        'max' => 255,
-                    ]),
-                ],
-            ])
+//            ->add('password', PasswordType::class, [
+//                'mapped' => false,
+//                'attr' => ['autocomplete' => 'new-password'],
+//                'constraints' => [
+//                    new NotBlank([
+//                        'message' => "Merci d'entrer un mot de passe",
+//                    ]),
+//                    new Length([
+//                        'min' => 6,
+//                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
+//                        'max' => 255,
+//                    ]),
+//                ],
+//            ])
 
 //            ->add('poster_file', FileType::class, [
 //                'mapped' => false,
@@ -69,7 +69,7 @@ class UserType extends AbstractType
 //            ])
 
             ->add('isActif')
-            ->add('isAdmin')
+//            ->add('isAdmin')
 
         ;
     }
