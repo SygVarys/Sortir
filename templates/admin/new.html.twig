@@ -37,17 +37,23 @@
             {{ form_widget(formUser.password, {'attr': {'class': 'form-control', 'autocomplete': 'new-password'}}) }}
         </div>
 
-
-
-        <div class="form-check mb-3">
-            {{ form_widget(formUser.isAdmin, {'label': "isAdmin", 'attr': {'class': 'form-check-input'}}) }}
-            <label class="form-check-label" for="isAdmin">Admin</label>
+{#        <div class="form-check mb-3">#}
+{#            {{ form_widget(formUser.roles, {'label': "roles", 'attr': {'class': 'form-check-input'}}) }}#}
+{#            <label class="form-check-label" for="roles">Roles</label>#}
+{#        </div>#}
+        <div>
+            {{ form_widget(formUser.roles)}}
         </div>
 
-        <div class="form-check mb-3">
-            {{ form_widget(formUser.isActif, {'label': "isActif", 'attr': {'class': 'form-check-input'}}) }}
-            <label class="form-check-label" for="isActif">Actif</label>
-        </div>
+{#        <div class="form-check mb-3">#}
+{#            {{ form_widget(formUser.isAdmin, {'label': "isAdmin", 'attr': {'class': 'form-check-input'}}) }}#}
+{#            <label class="form-check-label" for="isAdmin">Admin</label>#}
+{#        </div>#}
+
+{#        <div class="form-check mb-3">#}
+{#            {{ form_widget(formUser.isActif, {'label': "isActif", 'attr': {'class': 'form-check-input'}}) }}#}
+{#            <label class="form-check-label" for="isActif">Actif</label>#}
+{#        </div>#}
 
         <button type="submit" class="btn btn-lg btn-primary">Enregistrer</button>
         {{ form_end(formUser) }}
