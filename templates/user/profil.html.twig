@@ -16,13 +16,14 @@
     {{ user.telephone }}
     {{ user.email }}
     {{ user.Password }}
-    {{ user.poster }}
+
+
 
 
 
     <div class="image">
         {% if user.poster is not empty %}
-            <img src="{{ asset('img/avatar/' ~ user.poster) }}">
+            <img src="{{ asset('uploads/img/avatar/' ~ user.poster) }}">
         {% endif %}
     </div>
 

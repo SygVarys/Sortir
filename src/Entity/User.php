@@ -201,8 +201,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\PreRemove]
     public function deleteImage(): static
     {
-        if ($this->getPoster() && file_exists('/img/avatar' . $this->getPoster())) {
-            unlink('/img/avatar' . $this->getPoster());
+        if ($this->getPoster() && file_exists('uploads/img/avatar/' . $this->getPoster())) {
+            unlink('uploads/img/avatar/' . $this->getPoster());
         }
 
         return $this;
