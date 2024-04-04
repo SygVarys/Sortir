@@ -6,6 +6,7 @@ use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
+use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,8 +21,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET','POST'])]
-    public function index(Request $request, SortieRepository $sortieRepository): Response
+    public function index(Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
     {
+        //dd($villeRepository->find(1));
         $form = $this->createFormBuilder()
             ->add('site', EntityType::class, [
                 'placeholder' => '--Veuillez choisir une ville--',
@@ -35,7 +37,12 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            dd($form->getData());
+            $filtre = $form->getData();
+           //dd($filtre['site']->getId());
+            return $this->render('sortie/index.html.twig', [
+                'sorties' => $sortieRepository->findByFiltre($filtre),
+                'form' => $form,
+            ]);
 
 
 
