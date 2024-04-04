@@ -49,6 +49,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isAdmin = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $poster = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -180,6 +183,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsAdmin(?bool $isAdmin): static
     {
         $this->isAdmin = $isAdmin;
+
+        return $this;
+    }
+
+    public function getPoster(): ?string
+    {
+        return $this->poster;
+    }
+
+    public function setPoster(?string $poster): static
+    {
+        $this->poster = $poster;
+
+        return $this;
+    }
+    #[ORM\PreRemove]
+    public function deleteImage(): static
+    {
+        if ($this->getPoster() && file_exists('/img/avatar' . $this->getPoster())) {
+            unlink('/img/avatar' . $this->getPoster());
+        }
 
         return $this;
     }
