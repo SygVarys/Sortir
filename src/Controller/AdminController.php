@@ -51,10 +51,10 @@ class AdminController extends AbstractController
                 'row_attr' => [
                     'class' => 'input-group mb-3'
                 ]
-            ]);
+            ])
 
 
-//        ->add('isActif');
+        ->add('isActif');
 //        ->add('isAdmin');
 
 
@@ -94,7 +94,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'app_admin_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_admin_delete', methods: ['GET','POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
