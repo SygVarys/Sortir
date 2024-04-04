@@ -15,54 +15,61 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_register') }}"
-                       title="Go back to log">
-                        s'inscrire
-                    </a>
-                </li>
 
                 {% if is_granted('IS_AUTHENTICATED') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout') }}"
-                           title="Go back to disconnect">
-                            se deconnecter
-                        </a>
-                    </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}"
+                               title="Go back to disconnect">
+                                Se déconnecter
+                            </a>
+                        </li>
+
+
+                        {% if is_granted('ROLE_USER') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_sortie_index') }}"
+                                   title="Go back to about">
+                                    Sorties
+                                </a>
+                            </li>
+                        {% endif %}
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_profil') }}"
+                               title="Go back to about">
+                                Profil
+                            </a>
+                        </li>
+
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_admin_liste') }}"
+                                   title="Go back to liste user ">
+                                    Liste utilisateurs
+                                </a>
+                            </li>
+                        {% endif %}
+
                 {% else %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_login') }}"
                            title="Go back to log">
-                            login
+                            Se connecter
                         </a>
                     </li>
-                {% endif %}
 
-                {% if is_granted('ROLE_USER') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_sortie_index') }}"
-                           title="Go back to about">
-                            sorties
+                        <a class="nav-link" href="{{ path('app_register') }}"
+                           title="Go back to log">
+                            S'inscrire
                         </a>
                     </li>
-                {% endif %}
 
-                {% if is_granted('IS_AUTHENTICATED') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_profil') }}"
-                           title="Go back to about">
-                            Profil
-                        </a>
-                    </li>
-                {% endif %}
-
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_admin_liste') }}"
-                           title="Go back to liste user ">
-                            liste utilisateurs
-                        </a>
-                    </li>
                 {% endif %}
 
                 {#                {% if is_granted('IS_AUTHENTICATED') %}#}
