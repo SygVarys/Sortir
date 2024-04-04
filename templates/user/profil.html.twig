@@ -6,7 +6,15 @@
 {% block body %}
 
     <h1 class="h3 mb-3 font-weight-normal">Profil</h1>
-    <form method="post">
+
+    <div class="mise" style="display: flex; align-items: center">
+
+        <div style=" display:flex;">
+            {% if user.poster is not empty %}
+                <img src="{{ asset('uploads/img/avatar/' ~ user.poster) }}">
+            {% endif %}
+        </div>
+
         <div class="mb-3">
             {{ form_errors(userForm) }}
         </div>
@@ -39,23 +47,27 @@
         </div>
 
 
-        <div >
-            {% if user.poster is not empty %}
-                <img src="{{ asset('public/img/avatar/' ~ user.poster) }}">
-            {% endif %}
+
+
+        <div class="mb-3">
+            <label for="inputposter_file" class="form-label"></label>
+            {{ form_widget(userForm.poster_file, {'attr': {'class': 'form-control'}}) }}
         </div>
 
 
-        <button type="submit" class="btn btn-lg btn-primary">Modifier</button>
-        {{ form_end(userForm) }}
-    </form>
+
+
+        <button type="reset" class="btn btn-primary"  value="Reset">Annuler</button>
+
+
+        <input class="btn btn-primary" type="submit" value="Enregistrer">
+
+    </div>
 
 
 
+    {{ form_end(userForm) }}
 
-    <form method="post" action="{{ path('user_update', {'id': user.id}) }}">
-        <button type="submit" class="btn btn-secondary">annuler</button>
-    </form>
 
 
 {% endblock %}

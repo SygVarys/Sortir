@@ -52,6 +52,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $poster = null;
 
+    #[ORM\ManyToOne(inversedBy: 'participants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Site $site = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -201,9 +205,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\PreRemove]
     public function deleteImage(): static
     {
-        if ($this->getPoster() && file_exists('public/img/avatar/' . $this->getPoster())) {
-            unlink('public/img/avatar/' . $this->getPoster());
+        if ($this->getPoster() && file_exists('uploads/img/avatar/' . $this->getPoster())) {
+            unlink('uploads/img/avatar/' . $this->getPoster());
         }
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): static
+    {
+        $this->site = $site;
 
         return $this;
     }
