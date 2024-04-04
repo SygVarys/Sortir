@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -34,28 +35,46 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_new', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'app_admin_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function ajouterUtilisateur(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager):Response
+    public function modifierUtilisateur(User $user, Request $request, /*UserPasswordHasherInterface $userPasswordHasher,*/ EntityManagerInterface $entityManager):Response
     {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user)
+        ->add('roles', ChoiceType::class,[
+//                'placeholer'=> '--Choisissez le rôle du nouvel utilisateur--',
+                'choices' => [
+                    'Role_Admin'=>'ROLE_ADMIN',
+                    'Role_User'=>'ROLE_USER'
+                ],
+                'multiple' => true,
+                'expanded' => true,
+                'row_attr' => [
+                    'class' => 'input-group mb-3'
+                ]
+            ]);
+
+
+//        ->add('isActif');
+//        ->add('isAdmin');
+
+
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('password')->getData()
-                )
-            );
-            $user->setRoles(['ROLE_USER']);
+//            $user->setPassword(
+//                $userPasswordHasher->hashPassword(
+//                    $user,
+//                    $form->get('password')->getData()
+//                )
+//            );
+//            $user->setRoles(['ROLE_USER']);
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_liste', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_liste'/*, [], Response::HTTP_SEE_OTHER*/);
         }
 
         return $this->render('admin/new.html.twig', [

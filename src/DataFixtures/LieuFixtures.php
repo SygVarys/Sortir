@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Lieu;
-use App\Entity\Sortie;
 use App\Repository\VilleRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -12,39 +11,31 @@ use Faker;
 
 class LieuFixtures extends Fixture implements DependentFixtureInterface
 {
-
-
     private Faker\Generator $faker;
-    private VilleRepository $fakerVille;
 
-
-    public function __construct(VilleRepository $villeRepository)
-    {
-        $this->faker = Faker\Factory::create();
-        $this->fakerVille = $villeRepository;
+    public function __construct(private readonly VilleRepository $villeRepository) {
+        $this->faker = Faker\Factory::create('fr_FR');
     }
 
     public function load(ObjectManager $manager): void
     {
-
         for($i=0; $i<10; $i++ ){
             $lieu = new Lieu();
             $lieu->setNom($this->faker->words(3, true));
             $lieu->setRue($this->faker->address());
             $lieu->setLatitude($this->faker->latitude);
             $lieu->setLongitude($this->faker->longitude);
-            $lieu->setVille($this->faker->randomDigit());
-
+            $test = $this->villeRepository->findOneBy([]);
+            $lieu->setVille($test);
+            $manager->persist($lieu);
         }
-        $manager->persist($lieu);
+
 
         $manager->flush();
     }
 
-    public function getDependencies(): array
+    public function getDependencies()
     {
-        return [
-            VilleFixtures::class,
-        ];
+      return [VilleFixtures::class,];
     }
 }
