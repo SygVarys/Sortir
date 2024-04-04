@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin')]
 class AdminController extends AbstractController
@@ -25,6 +26,7 @@ class AdminController extends AbstractController
 
 
     #[Route('/liste', name:'app_admin_liste')]
+    #[IsGranted('ROLE_ADMIN')]
     public function listerUser(UserRepository $userRepository):Response
     {
         return $this->render('admin/liste.html.twig', [
@@ -33,6 +35,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function ajouterUtilisateur(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager):Response
     {
         $user = new User();
@@ -64,6 +67,7 @@ class AdminController extends AbstractController
 
 
     #[Route('/detail/{id}', name: 'app_admin_show', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function show(User $user): Response
     {
         return $this->render('admin/show.html.twig', [
@@ -72,6 +76,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'app_admin_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
 //        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {

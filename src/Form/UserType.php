@@ -4,12 +4,11 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
@@ -25,7 +24,16 @@ class UserType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('email')
-//            ->add('roles')
+            ->add('roles', ChoiceType::class,[
+                'placeholer'=> '--Choisissez le rôle du nouvel utilisateur--',
+                'choice' => [
+                    'Role_Admin'=>'ROLE_ADMIN',
+                    'Role_User'=>'ROLE_USER'
+                ],
+                'row_attr' => [
+                    'class' => 'input-group mb-3'
+                ]
+            ])
             ->add('password', PasswordType::class, [
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
@@ -40,29 +48,10 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-
-            ->add('poster', FileType::class, [
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '2500k',
-                        'maxSizeMessage' => 'Ton image est trop lourde',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/jpg',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => "Ce Format n'est pas pris en charge"
-                    ])
-                ]
-            ])
             ->add('isActif')
             ->add('isAdmin')
 
         ;
-
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void
