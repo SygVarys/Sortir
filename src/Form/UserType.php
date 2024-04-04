@@ -24,16 +24,16 @@ class UserType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('email')
-            ->add('roles', ChoiceType::class,[
-                'placeholer'=> '--Choisissez le rôle du nouvel utilisateur--',
-                'choice' => [
-                    'Role_Admin'=>'ROLE_ADMIN',
-                    'Role_User'=>'ROLE_USER'
-                ],
-                'row_attr' => [
-                    'class' => 'input-group mb-3'
-                ]
-            ])
+//            ->add('roles', ChoiceType::class,[
+//                'placeholer'=> '--Choisissez le rôle du nouvel utilisateur--',
+//                'choice' => [
+//                    'Role_Admin'=>'ROLE_ADMIN',
+//                    'Role_User'=>'ROLE_USER'
+//                ],
+//                'row_attr' => [
+//                    'class' => 'input-group mb-3'
+//                ]
+//            ])
             ->add('password', PasswordType::class, [
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
@@ -48,8 +48,8 @@ class UserType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('isActif')
-            ->add('isAdmin')
+//            ->add('isActif')
+//            ->add('isAdmin')
 
         ;
     }
