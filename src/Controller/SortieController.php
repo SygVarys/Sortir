@@ -38,7 +38,7 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $filtre = $form->getData();
-           //dd($filtre['site']->getId());
+           //dd($filtre['dateDebut']);
             return $this->render('sortie/index.html.twig', [
                 'sorties' => $sortieRepository->findByFiltre($filtre),
                 'form' => $form,

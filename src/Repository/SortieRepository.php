@@ -26,14 +26,19 @@ class SortieRepository extends ServiceEntityRepository
          */
         public function findByFiltre($filtre): array
         {
-            $query = $this->getEntityManager()->createQuery(
-                'SELECT s
+            $entityManager = $this->getEntityManager();
+                $dql = 'SELECT s
                     FROM App\Entity\Sortie s
                     JOIN s.lieu l
                     JOIN l.ville v 
-                    WHERE v.nom = :nomVille');
-            if ($filtre[dateDebut])
+                    WHERE v.nom = :nomVille';
+            if ($filtre['dateDebut']){
+                $dql .= ' AND s.dateHeureDebut > :dateDebut';
+            }
+
+            $query = $entityManager->createQuery($dql);
             $query->setParameter('nomVille', $filtre['site']->getNom() );
+            $query->setParameter('dateDebut', $filtre['dateDebut']);
             return $query->getResult();
 
 //           $query = $this-> createQueryBuilder('s');
