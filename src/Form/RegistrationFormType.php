@@ -2,9 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\User;
+use Doctrine\ORM\Mapping\Entity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -30,6 +34,21 @@ class RegistrationFormType extends AbstractType
                         'message' => 'You should agree to our terms.',
                     ]),
                 ],
+            ])
+            ->add('site', EntityType::class, [
+                'class' => Site::class,
+                'choice_label' => 'nom',
+        //                'choices' => [
+        //                    'Nantes' => 'Nantes',
+        //                    'Rennes' => 'Rennes',
+        //                    'Quimper' => 'Quimper',
+        //                    'Niort' => 'Niort',
+        //                ],
+                'expanded' => true,
+                'multiple' => false,
+//                'row_attr' => [
+//                    'class' => 'input-group mb-3'
+//                ]
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
