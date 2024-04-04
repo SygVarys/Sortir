@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,15 +19,31 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/sortie')]
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'app_sortie_index', methods: ['GET'])]
+    #[Route('/', name: 'app_sortie_index', methods: ['GET','POST'])]
     public function index(Request $request, SortieRepository $sortieRepository): Response
     {
         $form = $this->createFormBuilder()
-            ->add('site', TextType::class)
-            ->add('dateDebut', DateType::class)
-            ->add('dateFin', DateType::class)
+            ->add('site', EntityType::class, [
+                'placeholder' => '--Veuillez choisir une ville--',
+                'class' => Ville::class,
+                'choice_label' => 'nom'
+            ])
+            ->add('dateDebut', DateType::class, ['widget' => 'single_text'])
+            ->add('dateFin', DateType::class, ['widget' => 'single_text'])
             ->getForm();
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            dd($form->getData());
+
+
+
+
+            }
+
+
+
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
