@@ -24,13 +24,21 @@ class SortieRepository extends ServiceEntityRepository
         /**
          * @return Sortie[] Returns an array of Sortie objects
          */
-        public function findByFiltre($filtre): array|int
+        public function findByFiltre($filtre): array
         {
+            $query = $this->getEntityManager()->createQuery(
+                'SELECT s
+                    FROM App\Entity\Sortie s
+                    JOIN s.lieu l
+                    JOIN l.ville v 
+                    WHERE v.nom = :nomVille');
+            $query->setParameter('nomVille', $filtre['site']->getNom() );
+            return $query->getResult();
 
-           $query = $this-> createQueryBuilder('s');
-           $query->andWhere('s.lieu.ville = :ville')
-               ->setParameter('ville',$filtre['site']->getId());
-           return $query->getQuery()->getResult();
+//           $query = $this-> createQueryBuilder('s');
+//           $query->andWhere('s.lieu.ville = :ville')
+//               ->setParameter('ville',$filtre['site']);
+//           return $query->getQuery()->getResult();
 
 
         }
