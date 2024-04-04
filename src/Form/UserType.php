@@ -68,7 +68,7 @@ class UserType extends AbstractType
 //                ]
 //            ])
 
-            ->add('isActif')
+//            ->add('isActif')
 //            ->add('isAdmin')
 
         ;

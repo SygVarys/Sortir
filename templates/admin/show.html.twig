@@ -27,6 +27,10 @@
             <th>Roles</th>
             <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
         </tr>
+        <tr>
+            <th>Actif</th>
+            <td>{{ user.isActif }}</td>
+        </tr>
 {#        <tr>#}
 {#            <th>Password</th>#}
 {#            <td>{{ user.password }}</td>#}
@@ -38,10 +42,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_liste') }}">back to list</a>
+    <a href="{{ path('app_admin_liste') }}">retour à la liste</a>
 
+    <a href="{{ path('app_admin_edit', {'id': user.id}) }}">éditer</a>
 
-    <a href="{{ path('app_admin_edit', {'id': user.id}) }}">edit</a>
+    <a href="{{ path('app_admin_delete', {'id': user.id}) }}">supprimer</a>
 
-{#    {{ include('user/_delete_form.html.twig') }}#}
 {% endblock %}
