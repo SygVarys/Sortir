@@ -41,8 +41,14 @@ class SortieRepository extends ServiceEntityRepository
 
             $query = $entityManager->createQuery($dql);
             $query->setParameter('nomVille', $filtre['site']->getNom() );
-            $query->setParameter('dateDebut', $filtre['dateDebut']);
-            $query->setParameter('dateFin', $filtre['dateFin']);
+            if ($filtre['dateDebut']){
+                $query->setParameter('dateDebut', $filtre['dateDebut']);
+            }
+            if ($filtre['dateFin']){
+                $query->setParameter('dateFin', $filtre['dateFin']);
+            }
+
+
             return $query->getResult();
 
 //           $query = $this-> createQueryBuilder('s');

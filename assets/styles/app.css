@@ -73,3 +73,5 @@ caption {
     margin-right: auto;
     justify-content: center;
 }
+
+#map { height: 600px; }
