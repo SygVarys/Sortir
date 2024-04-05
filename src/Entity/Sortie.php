@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SortieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SortieRepository::class)]
 class Sortie
@@ -15,9 +16,12 @@ class Sortie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 5, minMessage: 'Le nom doit avoir au moins {{ limit }} caractères')]
+    #[Assert\Length(max: 255, maxMessage: 'Le nom doit avoir {{ limit }} caractères max')]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\GreaterThan(propertyPath: 'dateLimiteInscription')]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column]

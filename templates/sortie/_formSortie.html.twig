@@ -1,0 +1,61 @@
+<form method="post">
+
+
+    {{ form_start(form) }}
+
+    <div class="mb-3">
+        <label for="inputNom" class="form-label">Nom de la sortie</label>
+        {{ form_widget(form.nom) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="DateHeureSortie" class="form-label">Date et heure de la sortie :</label>
+        {{ form_widget(form.dateHeureDebut) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="DateInscription" class="form-label">Date limite d'inscription : </label>
+        {{ form_widget(form.dateLimiteInscription) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="nbPlaces" class="form-label">Nombre de places</label>
+        {{ form_widget(form.nbInscriptionsMax) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="duree" class="form-label">Durée : </label>
+        {{ form_widget(form.duree) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="duree" class="form-label">Description et infos : </label>
+        {{ form_widget(form.infosSortie) }}
+    </div>
+    {{ form_start(form2) }}
+    <div class="mb-3">
+        <label for="Lieu" class="form-label">Lieu : </label>
+        {{ form_widget(form2.nom) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="Ville" class="form-label">Ville : </label>
+        {{ form_widget(form2.ville) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="latitude" class="form-label">Latitude : </label>
+        {{ form_widget(form2.latitude) }}
+    </div>
+
+    <div class="mb-3">
+        <label for="Longitude" class="form-label">Longitude : </label>
+        {{ form_widget(form2.longitude) }}
+    </div>
+    {{ form_end(form2) }}
+
+
+
+    <button type="submit" class="btn btn-lg btn-primary">S'enregistrer</button>
+    {{ form_end(form) }}
+</form>

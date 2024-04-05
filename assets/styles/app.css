@@ -74,6 +74,10 @@ caption {
     justify-content: center;
 }
 
+
+#map { height: 600px; }
+
 input{
     margin: 10px;
 }
+
