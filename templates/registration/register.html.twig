@@ -42,7 +42,11 @@
             {{ form_widget(registrationForm.site) }}
         </div>
 
+        <div>
+            <span style="color: red">{{ form_widget(registrationForm.agreeTerms) }}Merci d'accepter les termes! </span>
 
+
+        </div>
 
         <button type="submit" class="btn btn-lg btn-primary">S'enregistrer</button>
         {{ form_end(registrationForm) }}

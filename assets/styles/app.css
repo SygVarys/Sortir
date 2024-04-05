@@ -73,3 +73,7 @@ caption {
     margin-right: auto;
     justify-content: center;
 }
+
+input{
+    margin: 10px;
+}

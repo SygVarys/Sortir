@@ -7,7 +7,7 @@
 
     <h1 class="h3 mb-3 font-weight-normal">Profil</h1>
 
-    <div class="mise" style="display: flex; align-items: center">
+    <div class="mise" style="display: flex; align-items: center; gap: 20px; white-space: nowrap;justify-content: center ">
 
         <div style=" display:flex;">
             {% if user.poster is not empty %}
@@ -19,25 +19,27 @@
             {{ form_errors(userForm) }}
         </div>
 
+
+
         {{ form_start(userForm) }}
 
-        <div class="mb-3">
-            <label for="inputNom" class="form-label">Nom</label>
+        <div class="mb-2 d-flex align-items-center ">
+            <label for="inputNom" class="form-label">Nom :</label>
             {{ form_widget(userForm.nom, {'attr': {'class': 'form-control'}}) }}
         </div>
 
-        <div class="mb-3">
-            <label for="inputPrenom" class="form-label">Prénom</label>
+        <div class="mb-2 d-flex align-items-center">
+            <label for="inputPrenom" class="form-label">Prénom :</label>
             {{ form_widget(userForm.prenom, {'attr': {'class': 'form-control'}}) }}
         </div>
 
-        <div class="mb-3">
-            <label for="inputEmail" class="form-label">Email</label>
+        <div class="mb-2 d-flex align-items-center">
+            <label for="inputEmail" class="form-label">Email :</label>
             {{ form_widget(userForm.email, {'attr': {'class': 'form-control', 'autocomplete': 'email'}}) }}
         </div>
 
-        <div class="mb-3">
-            <label for="inputTelephone" class="form-label">Téléphone</label>
+        <div class="mb-2 d-flex align-items-center">
+            <label for="inputTelephone" class="form-label">Téléphone :</label>
             {{ form_widget(userForm.telephone, {'attr': {'class': 'form-control'}}) }}
         </div>
 
@@ -46,13 +48,18 @@
 {#            {{ form_widget(userForm.password, {'attr': {'class': 'form-control'}}) }}#}
 {#        </div>#}
 
+        <div class="mb-2 d-flex align-items-center">
+{#            {{ form_label(userForm.site) }}#}
+            <label for="inputVille" class="form-label">Ville :</label>
+            {{ form_widget(userForm.site, {'attr': {'class': 'form-select'}}) }}
+        </div>
 
 
-
-        <div class="mb-3">
-            <label for="inputposter_file" class="form-label"></label>
+        <div class="mb-2 d-flex align-items-center">
+            <label for="inputposter_file" class="form-label">Ma photo :</label>
             {{ form_widget(userForm.poster_file, {'attr': {'class': 'form-control'}}) }}
         </div>
+
 
 
 
