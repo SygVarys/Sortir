@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
+use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
@@ -28,10 +30,12 @@ class SortieController extends AbstractController
             ->add('site', EntityType::class, [
                 'placeholder' => '--Veuillez choisir une ville--',
                 'class' => Ville::class,
-                'choice_label' => 'nom'
+                'choice_label' => 'nom',
+                'required' => false,
+
             ])
-            ->add('dateDebut', DateType::class, ['widget' => 'single_text'])
-            ->add('dateFin', DateType::class, ['widget' => 'single_text'])
+            ->add('dateDebut', DateType::class, ['widget' => 'single_text', 'required' => false,])
+            ->add('dateFin', DateType::class, ['widget' => 'single_text', 'required' => false,])
             ->getForm();
         $form->handleRequest($request);
 
@@ -43,11 +47,7 @@ class SortieController extends AbstractController
                 'sorties' => $sortieRepository->findByFiltre($filtre),
                 'form' => $form,
             ]);
-
-
-
-
-            }
+          }
 
 
 
@@ -63,6 +63,8 @@ class SortieController extends AbstractController
     {
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
+        $lieu = new Lieu();
+        $form2 = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -75,6 +77,7 @@ class SortieController extends AbstractController
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'form2' => $form2,
         ]);
     }
 
