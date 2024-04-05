@@ -23,12 +23,12 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
         for($i=0; $i<10; $i++ ){
             $sortie = new Sortie();
             $sortie->setNom($this->faker->words(3, true));
-            $sec = strtotime($this->faker->date());
-            $date = date("d/m/y H:i", $sec);
+//            $sec = strtotime($this->faker->date());
+//            $date = date("d/m/y H:i", $sec);
             $sortie->setDateHeureDebut($this->faker->dateTime());
             $sortie->setDuree($this->faker->numerify('##'));
-            $sec = strtotime($this->faker->date());
-            $date = date("d/m/y H:i", $sec);
+//            $sec = strtotime($this->faker->date());
+//            $date = date("d/m/y H:i", $sec);
             $sortie->setDateLimiteInscription($this->faker->dateTime());
             $sortie->setNbInscriptionsMax($this->faker->randomDigit());
             $sortie->setInfosSortie($this->faker->sentence());
