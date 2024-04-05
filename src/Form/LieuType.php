@@ -7,7 +7,10 @@ use App\Entity\Sortie;
 use App\Entity\Ville;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Event\PostSetDataEvent;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LieuType extends AbstractType
@@ -22,6 +25,13 @@ class LieuType extends AbstractType
             ])
             ->add('latitude')
             ->add('longitude')
+            ->addEventListener(FormEvents::POST_SET_DATA, function (PostSetDataEvent $event): void {
+               $test = $event->getData();
+               if ($test->getNom() !== null) {
+                   dd($test->getNom());}
+
+            })
+
         ;
     }
 

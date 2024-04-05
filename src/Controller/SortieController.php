@@ -67,6 +67,14 @@ class SortieController extends AbstractController
         $form2 = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
+        if ($form2->isSubmitted() && $form2->isValid()){
+            $key = "key=67fW3PVAqC1HMiyOvZ9d9CgiohZBqs67N6hiRelVusAVbhpXr1hxwCBcl65uL2ti";
+
+        }
+
+
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($sortie);
             $entityManager->flush();

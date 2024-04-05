@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -42,6 +44,22 @@ class Sortie
     #[ORM\ManyToOne(inversedBy: 'sorties')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Lieu $lieu = null;
+
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Site $site = null;
+
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $organisateur = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'sorties')]
+    private Collection $participants;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,6 +158,54 @@ class Sortie
     public function setLieu(?Lieu $lieu): static
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): static
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?User
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?User $organisateur): static
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->participants;
+    }
+
+    public function addParticipant(User $participant): static
+    {
+        if (!$this->participants->contains($participant)) {
+            $this->participants->add($participant);
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(User $participant): static
+    {
+        $this->participants->removeElement($participant);
 
         return $this;
     }
