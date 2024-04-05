@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Site;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -26,6 +28,17 @@ class UserType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('email')
+            ->add('site', EntityType::class, [
+                'class' => Site::class,
+                'choice_label' => 'nom',
+
+
+                'expanded' => false,
+                'multiple' => false,
+                'row_attr' => [
+                    'class' => 'input-group mr-3'
+                ]
+            ])
 //            ->add('roles', ChoiceType::class,[
 //                'placeholer'=> '--Choisissez le rôle du nouvel utilisateur--',
 //                'choice' => [

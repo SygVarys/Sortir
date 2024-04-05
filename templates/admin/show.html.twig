@@ -42,10 +42,13 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_liste') }}">retour à la liste</a>
+    <div style="display: flex;flex-wrap: nowrap;justify-content: space-evenly;">
 
-    <a href="{{ path('app_admin_edit', {'id': user.id}) }}">éditer</a>
+        <a href="{{ path('app_admin_liste') }}">retour à la liste</a>
 
-    <a href="{{ path('app_admin_delete', {'id': user.id}) }}">supprimer</a>
+        <a href="{{ path('app_admin_edit', {'id': user.id}) }}">éditer</a>
+
+        <a href="{{ path('app_admin_delete', {'id': user.id}) }}">supprimer</a>
+    </div>
 
 {% endblock %}

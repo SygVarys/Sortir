@@ -83,6 +83,8 @@ class UserController extends AbstractController
                 $user->setPoster($fileTitle);
             }
 
+            $user->setIsActif('1');
+
             $em->persist($user);
             $em->flush();
 

@@ -38,17 +38,12 @@ class RegistrationFormType extends AbstractType
             ->add('site', EntityType::class, [
                 'class' => Site::class,
                 'choice_label' => 'nom',
-        //                'choices' => [
-        //                    'Nantes' => 'Nantes',
-        //                    'Rennes' => 'Rennes',
-        //                    'Quimper' => 'Quimper',
-        //                    'Niort' => 'Niort',
-        //                ],
+
                 'expanded' => true,
                 'multiple' => false,
-//                'row_attr' => [
-//                    'class' => 'input-group mb-3'
-//                ]
+                'row_attr' => [
+                    'class' => 'input-group mr-3'
+                ]
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

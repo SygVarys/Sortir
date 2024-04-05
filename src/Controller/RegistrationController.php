@@ -24,15 +24,7 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
 
-//        $Sites = $form->get('site')->getData();
 
-//        foreach ($SiteNom as $nom) {
-//            $site = new Site();
-//            $site->setNom($nom);
-//
-//            // Associe le site à l'utilisateur
-//            $user->addSite($site);
-//        }
 
         $form->handleRequest($request);
 
@@ -46,6 +38,7 @@ class RegistrationController extends AbstractController
 
             );
 
+            $user->setIsActif('1');
             $entityManager->persist($user);
             $entityManager->flush();
 
