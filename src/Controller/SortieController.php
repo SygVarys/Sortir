@@ -40,29 +40,36 @@ class SortieController extends AbstractController
             ])
             ->add('contains', SearchType::class, [
                 'required' => false,
-            ] )
+            ])
             ->add('dateDebut', DateType::class, ['widget' => 'single_text', 'required' => false,])
             ->add('dateFin', DateType::class, ['widget' => 'single_text', 'required' => false,])
-            ->add('filtre', ChoiceType::class,[
-                'multiple'=>true,
+            ->add('filtre', ChoiceType::class, [
+                'multiple' => true,
                 'expanded' => true,
                 'required' => false,
                 'choices' => ["Sorties dont je suis l'organisateur/trice" => 1,
-                    'Sorties auxquelles je suis inscrit/e'=>2,
-                      'Sorties auxquelles je ne suis pas inscrit/e'=>3,
-                      'Sorties passées'=>4],
-            ] )
+                    'Sorties auxquelles je suis inscrit/e' => 2,
+                    'Sorties auxquelles je ne suis pas inscrit/e' => 3,
+                    'Sorties passées' => 4],
+            ])
             ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $filtre = $form->getData();
-            //var_dump($filtre);
-            return $this->render('sortie/index.html.twig', [
-                'sorties' => $sortieRepository->findByFiltre($filtre, $user),
-                'form' => $form,
-            ]);
-          }
+            $sortiesTemp = $sortieRepository->findByFiltre($filtre, $user);
+
+            if (in_array(2, $filtre['filtre']) xor in_array(3, $filtre['filtre'])) {
+                var_dump($sortiesTemp);
+                array_filter($sortiesTemp,);
+            }
+
+
+        return $this->render('sortie/index.html.twig', [
+            'sorties' => $sorties,
+            'form' => $form,
+        ]);
+    }
 
 
         return $this->render('sortie/index.html.twig', [

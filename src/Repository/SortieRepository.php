@@ -31,7 +31,7 @@ class SortieRepository extends ServiceEntityRepository
         $dql = 'SELECT s
                     FROM App\Entity\Sortie s
                     JOIN s.lieu l
-                    JOIN l.ville v
+                    JOIN l.ville v                   
                     WHERE v.nom = :nomVille';
 
 
