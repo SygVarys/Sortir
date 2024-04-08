@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class SortieController extends AbstractController
     #[Route('/', name: 'app_sortie_index', methods: ['GET','POST'])]
     public function index(Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
     {
-        //dd($villeRepository->find(1));
+        $user = $this->getUser();
         $form = $this->createFormBuilder()
             ->add('site', EntityType::class, [
                 'placeholder' => '--Veuillez choisir une ville--',
@@ -36,6 +37,7 @@ class SortieController extends AbstractController
                 'required' => false,
 
             ])
+            ->add('contains', SearchType::class )
             ->add('dateDebut', DateType::class, ['widget' => 'single_text', 'required' => false,])
             ->add('dateFin', DateType::class, ['widget' => 'single_text', 'required' => false,])
             ->add('filtre', ChoiceType::class,[
@@ -53,10 +55,10 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $filtre = $form->getData();
-           dd($filtre['filtre']);
+           //dd($filtre['filtre']);
             return $this->render('sortie/index.html.twig', [
 
-                'sorties' => $sortieRepository->findByFiltre($filtre),
+                'sorties' => $sortieRepository->findByFiltre($filtre, $user),
                 'form' => $form,
             ]);
           }

@@ -24,7 +24,7 @@ class SortieRepository extends ServiceEntityRepository
         /**
          * @return Sortie[] Returns an array of Sortie objects
          */
-        public function findByFiltre($filtre): array
+        public function findByFiltre($filtre, $user): array
         {
             $entityManager = $this->getEntityManager();
                 $dql = 'SELECT s
@@ -38,6 +38,10 @@ class SortieRepository extends ServiceEntityRepository
             if ($filtre['dateFin']){
                 $dql .= ' AND s.dateHeureDebut < :dateFin';
             }
+            if(in_array(1, $filtre['filtre'])){
+                $dql .= ' AND s.organisateur = :idOrganisateur';
+            }
+
 
             $query = $entityManager->createQuery($dql);
             $query->setParameter('nomVille', $filtre['site']->getNom() );
@@ -47,7 +51,10 @@ class SortieRepository extends ServiceEntityRepository
             if ($filtre['dateFin']){
                 $query->setParameter('dateFin', $filtre['dateFin']);
             }
-
+            if(in_array(1, $filtre['filtre'])){
+                //dd($user);
+                $query->setParameter('idOrganisateur', $user->getId());
+            }
 
 
             return $query->getResult();
