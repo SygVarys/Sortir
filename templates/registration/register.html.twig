@@ -23,6 +23,11 @@
         </div>
 
         <div class="mb-3">
+            <label for="inputPseudo" class="form-label">Pseudo</label>
+            {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
             <label for="inputEmail" class="form-label">Email</label>
             {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'autocomplete': 'email'}}) }}
         </div>
