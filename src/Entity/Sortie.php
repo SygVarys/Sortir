@@ -53,12 +53,14 @@ class Sortie
     #[ORM\JoinColumn(nullable: false)]
     private ?User $organisateur = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'sorties')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sortiesParticipant')]
     private Collection $participants;
+
+
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+        //$this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,6 +200,7 @@ class Sortie
     {
         if (!$this->participants->contains($participant)) {
             $this->participants->add($participant);
+            $participant->addSortiesParticipant($this);
         }
 
         return $this;
@@ -205,8 +208,12 @@ class Sortie
 
     public function removeParticipant(User $participant): static
     {
-        $this->participants->removeElement($participant);
+        if ($this->participants->removeElement($participant)) {
+            $participant->removeSortiesParticipant($this);
+        }
 
         return $this;
     }
+
+
 }
