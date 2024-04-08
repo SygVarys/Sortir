@@ -21,6 +21,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         for($i=0; $i<10; $i++ ){
             $user = new User();
+            $user->setPseudo($this->faker->userName());
             $user->setEmail($this->faker->email());
             $user->setRoles(["ROLE_ADMIN"]);
             $user->setPassword("$2y$13$9TgdcthSitCnE7b/FXCNNeKBsDRbPgQdBY.nY4BJYPgVVWMzL2tBu");

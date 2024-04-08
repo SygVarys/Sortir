@@ -39,6 +39,8 @@ class SortieRepository extends ServiceEntityRepository
             $dql .= ' AND s.nom LIKE :keyword';
         }
 
+
+
         if ($filtre['dateDebut']) {
             $dql .= ' AND s.dateHeureDebut > :dateDebut';
         }
@@ -47,6 +49,13 @@ class SortieRepository extends ServiceEntityRepository
         }
         if (in_array(1, $filtre['filtre'])) {
             $dql .= ' AND s.organisateur = :idOrganisateur';
+        }
+
+        if (in_array(2, $filtre['filtre'])) {
+            $dql .= ' AND :idUser MEMBER OF s.participants';
+        }
+        if (in_array(3, $filtre['filtre'])) {
+            $dql .= ' AND :idUser NOT MEMBER OF s.participants';
         }
 
 
@@ -67,6 +76,13 @@ class SortieRepository extends ServiceEntityRepository
         if (in_array(1, $filtre['filtre'])) {
             //dd($user);
             $query->setParameter('idOrganisateur', $user->getId());
+        }
+
+        if (in_array(2, $filtre['filtre'])) {
+            $query->setParameter('idUser', $user->getId());
+        }
+        if (in_array(3, $filtre['filtre'])) {
+            $query->setParameter('idUser', $user->getId());
         }
 
 
