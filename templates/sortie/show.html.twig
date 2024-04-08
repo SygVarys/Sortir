@@ -65,7 +65,9 @@
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 
-    <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+    {%  if is_granted('ROLE_ADMIN') or app.user == sortie.organisateur %}
+        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+    {% endif %}
 
     <a href="{{ path('app_sortie_addParticipant', {'id':sortie.id}) }}">m'inscrire</a>
 
