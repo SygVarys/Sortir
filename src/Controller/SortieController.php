@@ -10,6 +10,7 @@ use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
@@ -137,4 +138,18 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/addParticipant', name:'app_sortie_addParticipant')]
+    public function addParticipant(Request $request, Sortie $sortie, EntityManagerInterface $entityManager):Response
+    {
+        $sortie->addParticipant($this->getUser());
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_sortie_show', ['id'=>$sortie->getId()]);
+    }
+
+
+
+
 }

@@ -67,5 +67,7 @@
 
     <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
 
+    <a href="{{ path('app_sortie_addParticipant', {'id':sortie.id}) }}">m'inscrire</a>
+
     {{ include('sortie/_delete_form.html.twig') }}
 {% endblock %}
