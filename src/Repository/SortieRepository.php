@@ -32,6 +32,10 @@ class SortieRepository extends ServiceEntityRepository
                     JOIN s.lieu l
                     JOIN l.ville v 
                     WHERE v.nom = :nomVille';
+                if ($filtre['contains']){
+                    $dql .= ' AND s.nom LIKE :keyword';
+                }
+
             if ($filtre['dateDebut']){
                 $dql .= ' AND s.dateHeureDebut > :dateDebut';
             }
@@ -45,6 +49,9 @@ class SortieRepository extends ServiceEntityRepository
 
             $query = $entityManager->createQuery($dql);
             $query->setParameter('nomVille', $filtre['site']->getNom() );
+            if ($filtre['contains']){
+                $query->setParameter('keyword', '%'.$filtre['contains'].'%');
+            }
             if ($filtre['dateDebut']){
                 $query->setParameter('dateDebut', $filtre['dateDebut']);
             }

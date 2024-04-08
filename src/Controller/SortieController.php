@@ -37,7 +37,9 @@ class SortieController extends AbstractController
                 'required' => false,
 
             ])
-            ->add('contains', SearchType::class )
+            ->add('contains', SearchType::class, [
+                'required' => false,
+            ] )
             ->add('dateDebut', DateType::class, ['widget' => 'single_text', 'required' => false,])
             ->add('dateFin', DateType::class, ['widget' => 'single_text', 'required' => false,])
             ->add('filtre', ChoiceType::class,[
@@ -55,6 +57,7 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $filtre = $form->getData();
+            //dd($filtre['contains']);
            //dd($filtre['filtre']);
             return $this->render('sortie/index.html.twig', [
 
