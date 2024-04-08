@@ -24,6 +24,10 @@
             <td>{{ user.email }}</td>
         </tr>
         <tr>
+            <th>Téléphone</th>
+            <td>{{ user.telephone }}</td>
+        </tr>
+        <tr>
             <th>Roles</th>
             <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
         </tr>
@@ -44,11 +48,11 @@
 
     <div style="display: flex;flex-wrap: nowrap;justify-content: space-evenly;">
 
-        <a href="{{ path('app_admin_liste') }}">retour à la liste</a>
+        <a href="{{ path('app_admin_liste') }}" class="btn btn-primary">retour à la liste</a>
 
-        <a href="{{ path('app_admin_edit', {'id': user.id}) }}">éditer</a>
+        <a href="{{ path('app_admin_edit', {'id': user.id}) }}" class="btn btn-info">éditer</a>
 
-        <a href="{{ path('app_admin_delete', {'id': user.id}) }}">supprimer</a>
+        <a href="{{ path('app_admin_delete', {'id': user.id}) }}" class="btn btn-danger">supprimer</a>
     </div>
 
 {% endblock %}
