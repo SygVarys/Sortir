@@ -2,12 +2,18 @@
 
 namespace App\Controller;
 
+
 use App\Entity\User;
+use App\Form\RegistrationFormType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -106,5 +112,55 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_liste'/*, [], Response::HTTP_SEE_OTHER*/);
     }
 
+    #[Route('/AdminCreate', name: 'app_admin_create')]
+    public function adminCreate(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
+    {
+
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user)
+
+
+            ->add('roles', ChoiceType::class, [
+                'multiple' => true,
+                'expanded' => true,
+                'required' => false,
+                'choices' => [
+                    'Admin' => 'ROLE_ADMIN',
+                    'User' => 'ROLE_USER',
+                ]
+            ])
+
+        ->add('reset', ResetType::class, [
+        'label' => 'Réinitialiser',
+        'attr' => ['class' => 'btn btn-secondary']
+    ]);
+
+        $form->handleRequest($request);
+
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+
+            );
+
+            $user->setIsActif('1');
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // do anything else you need here, like send an email
+
+//            return $security->login($user, AppAuthenticator::class, 'main');
+        }
+
+        return $this->render('admin/AdminCreate.html.twig', [
+            'registrationForm' => $form,
+        ]);
+    }
 
 }
