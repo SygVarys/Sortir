@@ -6,13 +6,17 @@ use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
 use App\Form\LieuType;
+use App\Entity\User;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
+use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -26,48 +30,66 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/sortie')]
 class SortieController extends AbstractController
 {
-    #[Route('/', name: 'app_sortie_index', methods: ['GET','POST'])]
-    public function index(Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
+    #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
+    public function index(Security $security, Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
     {
-        $user = $this->getUser();
+        $user = $security->getUser();
         $form = $this->createFormBuilder()
             ->add('site', EntityType::class, [
                 'placeholder' => '--Veuillez choisir une ville--',
                 'class' => Ville::class,
                 'choice_label' => 'nom',
-                'required' => false,
+                'required' => true,
 
             ])
             ->add('contains', SearchType::class, [
                 'required' => false,
-            ] )
+            ])
             ->add('dateDebut', DateType::class, ['widget' => 'single_text', 'required' => false,])
             ->add('dateFin', DateType::class, ['widget' => 'single_text', 'required' => false,])
-            ->add('filtre', ChoiceType::class,[
-                'multiple'=>true,
+            ->add('filtre', ChoiceType::class, [
+                'multiple' => true,
                 'expanded' => true,
                 'required' => false,
-                'choices' => ['Sorties dont je suis l\\\'organisateur/trice' => 1,
-                    'Sorties auxquelles je suis inscrit/e'=>2,
-                      'Sorties auxquelles je ne suis pas inscrit/e'=>3,
-                      'Sorties passées'=>4],
-            ] )
+                'choices' => ["Sorties dont je suis l'organisateur/trice" => 1,
+                    'Sorties auxquelles je suis inscrit/e' => 2,
+                    'Sorties auxquelles je ne suis pas inscrit/e' => 3,
+                    'Sorties passées' => 4],
+            ])
             ->getForm();
         $form->handleRequest($request);
-
+        $tableau = [];
         if ($form->isSubmitted() && $form->isValid()) {
-
             $filtre = $form->getData();
-            //dd($filtre['contains']);
-           //dd($filtre['filtre']);
-            return $this->render('sortie/index.html.twig', [
+            $sorties = $sortieRepository->findByFiltre($filtre, $user);
 
-                'sorties' => $sortieRepository->findByFiltre($filtre, $user),
-                'form' => $form,
-            ]);
-          }
+//            if (in_array(2, $filtre['filtre']) xor in_array(3, $filtre['filtre'])) {
+//                $sortie = new Sortie();
+//                var_dump(count($sorties));
+//
+//                for ($i = 0; $i < count($sorties); $i++) {
+//                    //var_dump($sorties[$i]);
+//                    $sortie = $sorties[$i];
+//                    $participants = $sortie->getParticipants();
+//                    for ($j = 0; $j < count($participants); $i++) {
+//                        if ($user == $participants[$j]) {
+//                            $tableau[] = $sortie;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            $sorties = $tableau;
+//            //var_dump($tableau);
 
 
+
+
+        return $this->render('sortie/index.html.twig', [
+            'sorties' => $sorties,
+            'form' => $form,
+        ]);
+    }
 
 
         return $this->render('sortie/index.html.twig', [
@@ -85,12 +107,10 @@ class SortieController extends AbstractController
         $form2 = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
-        if ($form2->isSubmitted() && $form2->isValid()){
+        if ($form2->isSubmitted() && $form2->isValid()) {
             $key = "key=67fW3PVAqC1HMiyOvZ9d9CgiohZBqs67N6hiRelVusAVbhpXr1hxwCBcl65uL2ti";
 
         }
-
-
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -136,7 +156,7 @@ class SortieController extends AbstractController
     #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$sortie->getId(), $request->getPayload()->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->getPayload()->get('_token'))) {
             $entityManager->remove($sortie);
             $entityManager->flush();
         }
@@ -144,17 +164,15 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/addParticipant', name:'app_sortie_addParticipant')]
-    public function addParticipant(Request $request, Sortie $sortie, EntityManagerInterface $entityManager):Response
+    #[Route('/{id}/addParticipant', name: 'app_sortie_addParticipant')]
+    public function addParticipant(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         $sortie->addParticipant($this->getUser());
         $entityManager->persist($sortie);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_sortie_show', ['id'=>$sortie->getId()]);
+        return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
     }
-
-
 
 
 }
