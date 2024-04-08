@@ -39,12 +39,29 @@
                 <th>Organisateur</th>
                 <td>{{ sortie.organisateur.nom }}</td>
             </tr>
-            <tr>
-                <th>Etat</th>
-                <td>{{ sortie.etat }}</td>
-            </tr>
+{#            <tr>#}
+{#                <th>Etat</th>#}
+{#                <td>{{ sortie.etat }}</td>#}
+{#            </tr>#}
         </tbody>
     </table>
+
+
+    <div>
+        <h2> Participants :</h2>
+        <ul>
+            {% for participant in sortie.participants %}
+                <li>{{ participant.nom }}</li>
+            {% else %}
+                <li>Pas de participant actuellement</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+
+
+
 
     <a href="{{ path('app_sortie_index') }}">back to list</a>
 
