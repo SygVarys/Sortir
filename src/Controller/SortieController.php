@@ -12,6 +12,8 @@ use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -36,14 +38,24 @@ class SortieController extends AbstractController
             ])
             ->add('dateDebut', DateType::class, ['widget' => 'single_text', 'required' => false,])
             ->add('dateFin', DateType::class, ['widget' => 'single_text', 'required' => false,])
+            ->add('filtre', ChoiceType::class,[
+                'multiple'=>true,
+                'expanded' => true,
+                'required' => false,
+                'choices' => ['Sorties dont je suis l\\\'organisateur/trice' => 1,
+                    'Sorties auxquelles je suis inscrit/e'=>2,
+                      'Sorties auxquelles je ne suis pas inscrit/e'=>3,
+                      'Sorties passées'=>4],
+            ] )
             ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $filtre = $form->getData();
-           //dd($filtre['dateDebut']);
+           dd($filtre['filtre']);
             return $this->render('sortie/index.html.twig', [
+
                 'sorties' => $sortieRepository->findByFiltre($filtre),
                 'form' => $form,
             ]);
