@@ -35,7 +35,7 @@ class SortieController extends AbstractController
                 'placeholder' => '--Veuillez choisir une ville--',
                 'class' => Ville::class,
                 'choice_label' => 'nom',
-                'required' => false,
+                'required' => true,
 
             ])
             ->add('contains', SearchType::class, [
@@ -47,7 +47,7 @@ class SortieController extends AbstractController
                 'multiple'=>true,
                 'expanded' => true,
                 'required' => false,
-                'choices' => ['Sorties dont je suis l\\\'organisateur/trice' => 1,
+                'choices' => ["Sorties dont je suis l'organisateur/trice" => 1,
                     'Sorties auxquelles je suis inscrit/e'=>2,
                       'Sorties auxquelles je ne suis pas inscrit/e'=>3,
                       'Sorties passées'=>4],
@@ -56,18 +56,13 @@ class SortieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $filtre = $form->getData();
-            //dd($filtre['contains']);
-           //dd($filtre['filtre']);
+            //var_dump($filtre);
             return $this->render('sortie/index.html.twig', [
-
                 'sorties' => $sortieRepository->findByFiltre($filtre, $user),
                 'form' => $form,
             ]);
           }
-
-
 
 
         return $this->render('sortie/index.html.twig', [

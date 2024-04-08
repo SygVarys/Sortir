@@ -19,6 +19,8 @@
                 <th>InfosSortie</th>
                 <th>Organisateur</th>
                 <th>Etat</th>
+                <th>Villes</th>
+                <th>Participants</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -34,6 +36,13 @@
                 <td>{{ sortie.infosSortie }}</td>
                 <td>{{ sortie.organisateur.nom }}</td>
                 <td>{{ sortie.etat }}</td>
+                <td>{{ sortie.lieu.ville.nom }}</td>
+
+                <td>
+                    {% for user in sortie.participants %}
+                        <li>{{ user.nom|e }}</li>
+                    {% endfor %}
+                </td>
                 <td>
                     <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">show</a>
                     <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
