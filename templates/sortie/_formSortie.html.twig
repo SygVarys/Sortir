@@ -32,6 +32,13 @@
         <label for="duree" class="form-label">Description et infos : </label>
         {{ form_widget(form.infosSortie) }}
     </div>
+
+
+
+
+    <button type="submit" class="btn btn-lg btn-primary">S'enregistrer</button>
+    {{ form_end(form) }}
+
     {{ form_start(form2) }}
     <div class="mb-3">
         <label for="Lieu" class="form-label">Lieu : </label>
@@ -52,10 +59,9 @@
         <label for="Longitude" class="form-label">Longitude : </label>
         {{ form_widget(form2.longitude) }}
     </div>
+    <button id='Adresse' type="button" class="btn btn-lg btn-primary">Chercher le lieu</button>
     {{ form_end(form2) }}
 
 
 
-    <button type="submit" class="btn btn-lg btn-primary">S'enregistrer</button>
-    {{ form_end(form) }}
 </form>

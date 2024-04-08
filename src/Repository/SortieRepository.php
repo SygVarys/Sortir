@@ -24,7 +24,7 @@ class SortieRepository extends ServiceEntityRepository
         /**
          * @return Sortie[] Returns an array of Sortie objects
          */
-        public function findByFiltre($filtre): array
+        public function findByFiltre($filtre, $user): array
         {
             $entityManager = $this->getEntityManager();
                 $dql = 'SELECT s
@@ -32,20 +32,35 @@ class SortieRepository extends ServiceEntityRepository
                     JOIN s.lieu l
                     JOIN l.ville v 
                     WHERE v.nom = :nomVille';
+                if ($filtre['contains']){
+                    $dql .= ' AND s.nom LIKE :keyword';
+                }
+
             if ($filtre['dateDebut']){
                 $dql .= ' AND s.dateHeureDebut > :dateDebut';
             }
             if ($filtre['dateFin']){
                 $dql .= ' AND s.dateHeureDebut < :dateFin';
             }
+            if(in_array(1, $filtre['filtre'])){
+                $dql .= ' AND s.organisateur = :idOrganisateur';
+            }
+
 
             $query = $entityManager->createQuery($dql);
             $query->setParameter('nomVille', $filtre['site']->getNom() );
+            if ($filtre['contains']){
+                $query->setParameter('keyword', '%'.$filtre['contains'].'%');
+            }
             if ($filtre['dateDebut']){
                 $query->setParameter('dateDebut', $filtre['dateDebut']);
             }
             if ($filtre['dateFin']){
                 $query->setParameter('dateFin', $filtre['dateFin']);
+            }
+            if(in_array(1, $filtre['filtre'])){
+                //dd($user);
+                $query->setParameter('idOrganisateur', $user->getId());
             }
 
 

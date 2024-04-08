@@ -66,6 +66,7 @@ class RegistrationFormType extends AbstractType
                             'max' => 4096,
                         ]),
                     ],
+
                     'label' => 'Nouveau mot de passe'
                 ],
                 'second_options' => [
