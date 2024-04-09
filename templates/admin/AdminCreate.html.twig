@@ -13,8 +13,8 @@
         {{ form_start(registrationForm) }}
 
         <div class="mb-3">
-            <label for="inputPseudo" class="form-label">Nom</label>
-            {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
+            <label for="inputpseudo" class="form-label">Pseudo</label>
+            {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'form-control'}}) }}
         </div>
 
         <div class="mb-3">
@@ -53,12 +53,26 @@
         </div>
 
         <div>
-            {{ form_widget(registrationForm.agreeTerms, {'attr': {'style' : 'display:none'}}) }}
+            <span style="color: red">{{ form_widget(registrationForm.agreeTerms) }}contrat </span>
+
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var agreeTermsCheckbox = document.getElementById('{{ registrationForm.agreeTerms.vars.id }}');
+                    if (agreeTermsCheckbox) {
+                        agreeTermsCheckbox.checked = true;
+                    }
+                });
+            </script>
         </div>
 
-        {{ form_widget(registrationForm.reset) }}
-        <button type="submit" class="btn btn-lg btn-primary">enregistrer</button>
+
+        <a href="{{ path('app_admin_create') }}" type="reset" class="btn btn-primary">retour à la liste</a>
+
+        <button type="submit" class="btn btn-lg btn-primary">Enregistrer</button>
+
         {{ form_end(registrationForm) }}
+
     </form>
 
 {% endblock %}

@@ -128,12 +128,12 @@ class AdminController extends AbstractController
                     'Admin' => 'ROLE_ADMIN',
                     'User' => 'ROLE_USER',
                 ]
-            ])
+            ]);
 
-        ->add('reset', ResetType::class, [
-        'label' => 'Réinitialiser',
-        'attr' => ['class' => 'btn btn-secondary']
-    ]);
+//        ->add('reset', ResetType::class, [
+//        'label' => 'Réinitialiser',
+//        'attr' => ['class' => 'btn btn-secondary']
+//    ]);
 
         $form->handleRequest($request);
 
@@ -155,7 +155,7 @@ class AdminController extends AbstractController
 
             // do anything else you need here, like send an email
 
-//            return $security->login($user, AppAuthenticator::class, 'main');
+            return $this->redirectToRoute('app_admin_liste');
         }
 
         return $this->render('admin/AdminCreate.html.twig', [
