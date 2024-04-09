@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CsvImportController!{% endblock %}
+
+{% block body %}
+    <form method="post" enctype="multipart/form-data">
+        {{ form_widget(form) }}
+        <button type="submit">Importer</button>
+    </form>
+
+{% endblock %}
