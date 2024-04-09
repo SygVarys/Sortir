@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -57,6 +58,9 @@ class SortieRepository extends ServiceEntityRepository
         if (in_array(3, $filtre['filtre'])) {
             $dql .= ' AND :idUser NOT MEMBER OF s.participants';
         }
+        if (in_array(4, $filtre['filtre'])) {
+            $dql .= ' AND s.dateHeureDebut < :datePresente';
+        }
 
 
 
@@ -83,6 +87,9 @@ class SortieRepository extends ServiceEntityRepository
         }
         if (in_array(3, $filtre['filtre'])) {
             $query->setParameter('idUser', $user->getId());
+        }
+        if (in_array(3, $filtre['filtre'])) {
+            $query->setParameter('datePresente', new DateTime());
         }
 
 
