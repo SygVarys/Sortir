@@ -67,9 +67,11 @@
         </div>
 
 
-        <a href="{{ path('app_admin_create') }}" type="reset" class="btn btn-primary">retour à la liste</a>
+        <a href="{{ path('app_admin_liste') }}" class="btn btn-lg btn-primary">Liste Utilisateur</a>
 
-        <button type="submit" class="btn btn-lg btn-primary">Enregistrer</button>
+        <a href="{{ path('app_admin_create') }}" type="reset" class="btn btn-lg btn-secondary">Annuler</a>
+
+        <button type="submit" class="btn btn-lg btn-success">Enregistrer</button>
 
         {{ form_end(registrationForm) }}
 
