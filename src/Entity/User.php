@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $isAdmin = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $poster = null;
+    private ?string $poster = 'captureSilhouette';
 
     #[ORM\ManyToOne(inversedBy: 'participants')]
     #[ORM\JoinColumn(nullable: true)]

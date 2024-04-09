@@ -21,11 +21,14 @@ use Symfony\Component\Validator\Constraints\File;
 
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
-    public function index(): Response
+    #[Route('/user/{id}', name: 'app_user')]
+    public function infosUtilisateur(int $id, UserRepository $userRepository, User $user): Response
     {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
+        $user = $userRepository->find($id);
+
+
+        return $this->render('user/index.html.twig',[
+            'user'=>$user,
         ]);
     }
 

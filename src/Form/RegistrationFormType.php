@@ -37,6 +37,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+
             ->add('site', EntityType::class, [
                 'class' => Site::class,
                 'choice_label' => 'nom',

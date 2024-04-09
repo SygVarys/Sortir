@@ -26,6 +26,7 @@ class UserType extends AbstractType
 
             ->add('nom')
             ->add('prenom')
+            ->add('pseudo')
             ->add('telephone')
             ->add('email')
             ->add('site', EntityType::class, [

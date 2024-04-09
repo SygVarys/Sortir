@@ -1,8 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}profil{% endblock %}
 
 {% block body %}
+
+        <h1 class="h3 mb-3 font-weight-normal">Profil de l'utilisateur : </h1>
+
+    <div class="mb-2 d-flex align-items-center justify-content-center">
+               <h1>{{ user.pseudo }}</h1>
+    </div>
+
+    <div class="mise" style="display: flex; align-items: center; gap: 20px; white-space: nowrap;justify-content: center ">
+
+        <div style=" display:flex;">
+            {% if user.poster is not empty %}
+                <img src="{{ asset('uploads/img/avatar/' ~ user.poster) }}">
+            {%  else %}
+                <img src="{{ asset( 'uploads/img/avatar/captureSilhouette.png') }}">
+            {% endif %}
+        </div>
+
+
+        <div>
+            <div class="mb-2 d-flex align-items-center ">
+                <label for="inputNom" >Prénom : </label>
+                {{ user.prenom }}
+            </div>
+            <div class="mb-2 d-flex align-items-center ">
+                <label for="inputNom" >Nom : </label>
+                {{ user.nom }}
+            </div>
+            <div class="mb-2 d-flex align-items-center ">
+                <label for="inputTelephone" >Téléphone : </label>
+                {{ user.telephone }}
+            </div>
+            <div class="mb-2 d-flex align-items-center ">
+                <label for="inputEmail" >Email : </label>
+                {{ user.email }}
+            </div>
+            <div class="mb-2 d-flex align-items-center ">
+                <label for="inputSite">Ville de rattachement : </label>
+                {{ user.site.nom }}
+            </div>
+        </div>
+    </div>
+
+
+    <a href="{{ path('app_sortie_index') }}" class="btn btn-primary">retour à la liste des sorties</a>
+
+
 
 
 {% endblock %}
