@@ -13,15 +13,29 @@ console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
 
 // Aller chercher l'adresse du lieu
-let $element = document.getElementById('Adresse');
-$element.addEventListener("click", rechercherLatitudeLongitude)
-console.log("Ca marche !!!")
-console.log($element)
-function rechercherLatitudeLongitude(){
-    console.log("Ca marche bien ? !!!")
-    let $adresse = document.getElementById('lieu_nom').value
-    let $ville = document.getElementById('lieu_ville').value
-    console.log("Cela donne cela =" + $adresse + $ville)
+// let $element = document.getElementById('Adresse');
+// $element.addEventListener("click", rechercherLatitudeLongitude)
+// console.log("Ca marche !!!")
+// console.log($element)
+// function rechercherLatitudeLongitude(){
+//     console.log("Ca marche bien ? !!!")
+//     let $adresse = document.getElementById('lieu_nom').value
+//     let $ville = document.getElementById('lieu_ville').value
+//     $adresse.split(' ')
+//     $adresse.join('+')
+//     console.log($adresse)
+//     fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
+//         .then(r => r.json())
+//         .then(reponse => {
+// // console.log(reponse["sprites"]["other"]["home"]["front_female"]);
+//             1
+//             let image = document.createElement('img');
+//             image.src = reponse["sprites"]["other"]["home"]["front_female"];
+//             document.getElementById('pikachu').appendChild(image);
+//         })
+
+
+    // https://api-adresse.data.gouv.fr/search/?q=8+bd+du+port
 }
 
 

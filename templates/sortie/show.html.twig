@@ -52,7 +52,7 @@
         <h2> Participants :</h2>
         <ul>
             {% for participant in sortie.participants %}
-                <li>{{ participant.pseudo }} : {{ participant.nom }}</li>
+                <li><a href="{{ path('app_user',{id:participant.id}) }}">{{ participant.pseudo }} : {{ participant.nom }}</a></li>
             {% else %}
                 <li>Pas de participant actuellement</li>
             {% endfor %}
@@ -73,6 +73,12 @@
     <form method="post" action="{{ path('app_sortie_addParticipant', {'id': sortie.id}) }}" onsubmit="return confirm('Etes-vous sûrs de vouloir vous inscrire à cette sortie ?');">
         <button class="btn btn-success">m'inscrire</button>
     </form>
+
+    {%  if is_granted('ROLE_ADMIN') or sortie.participants.contains(app.user) %}
+    <form method="post" action="{{ path('app_sortie_deleteParticipant', {'id': sortie.id}) }}" onsubmit="return confirm('Etes-vous sûrs de vouloir vous désinscrire à cette sortie ?');">
+        <button class="btn btn-danger">me désinscrire</button>
+    </form>
+    {% endif %}
 
     {%  if is_granted('ROLE_ADMIN') or app.user == sortie.organisateur %}
         {{ include('sortie/_delete_form.html.twig') }}
