@@ -56,6 +56,8 @@ class SortieRepository extends ServiceEntityRepository
             $dql .= ' AND s.dateHeureDebut < :datePresente';
         }
 
+        $dql .= ' ORDER BY s.dateHeureDebut DESC';
+
 
 
         $query = $entityManager->createQuery($dql);
