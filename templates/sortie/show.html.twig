@@ -47,11 +47,12 @@
     </table>
 
 
+
     <div>
         <h2> Participants :</h2>
         <ul>
             {% for participant in sortie.participants %}
-                <li>{{ participant.nom }}</li>
+                <li>{{ participant.pseudo }} : {{ participant.nom }}</li>
             {% else %}
                 <li>Pas de participant actuellement</li>
             {% endfor %}

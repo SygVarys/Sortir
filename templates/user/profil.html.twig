@@ -5,7 +5,7 @@
 
 {% block body %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Profil</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Mon profil : </h1>
 
     <div class="mise" style="display: flex; align-items: center; gap: 20px; white-space: nowrap;justify-content: center ">
 
@@ -34,6 +34,11 @@
         </div>
 
         <div class="mb-2 d-flex align-items-center">
+            <label for="inputPseudo" class="form-label">Pseudo :</label>
+            {{ form_widget(userForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-2 d-flex align-items-center">
             <label for="inputEmail" class="form-label">Email :</label>
             {{ form_widget(userForm.email, {'attr': {'class': 'form-control', 'autocomplete': 'email'}}) }}
         </div>
@@ -56,7 +61,7 @@
 
 
         <div class="mb-2 d-flex align-items-center">
-            <label for="inputposter_file" class="form-label">Ma photo :</label>
+            <label for="inputPoster_file" class="form-label">Ma photo :</label>
             {{ form_widget(userForm.poster_file, {'attr': {'class': 'form-control'}}) }}
         </div>
 
