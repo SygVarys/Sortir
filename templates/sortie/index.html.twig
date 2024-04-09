@@ -40,7 +40,7 @@
 
                 <td>
                     {% for user in sortie.participants %}
-                        <li>{{ user.nom }}</li>
+                        <li><a href=" {{ path('app_user',{id:user.id}) }}">{{ user.nom }}</a></li>
                     {% endfor %}
                 </td>
                 <td>
