@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Sortie index{% endblock %}
-
+{% block presentation %}
+    <div class="d-flex align-items-center justify-content-end">
+        Nous sommes le {{ 'now'|date('d/m/Y') }} <br>
+        Vous êtes connectés en tant que {{ app.user.pseudo }}
+    </div>
+{% endblock %}
 {% block body %}
     <h1>Sortie index</h1>
 

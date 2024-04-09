@@ -39,6 +39,7 @@
 {# contenu principal de chaque page #}
 <main class="flex-grow-1">
     <div class="container">
+        {% block presentation %}{% endblock %}
         {% block body %}{% endblock %}
     </div>
 </main>
