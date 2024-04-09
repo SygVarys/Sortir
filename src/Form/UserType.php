@@ -31,8 +31,6 @@ class UserType extends AbstractType
             ->add('site', EntityType::class, [
                 'class' => Site::class,
                 'choice_label' => 'nom',
-
-
                 'expanded' => false,
                 'multiple' => false,
                 'row_attr' => [
