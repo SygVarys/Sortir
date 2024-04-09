@@ -60,6 +60,7 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $filtre = $form->getData();
+            $user = $this->getUser();
             $sorties = $sortieRepository->findByFiltre($filtre, $user);
 
 //            if (in_array(2, $filtre['filtre']) xor in_array(3, $filtre['filtre'])) {
@@ -160,14 +161,34 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
+
+
+
+
     #[Route('/{id}/addParticipant', name: 'app_sortie_addParticipant')]
     public function addParticipant(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
-        $sortie->addParticipant($this->getUser());
-        $entityManager->persist($sortie);
-        $entityManager->flush();
+        $nbParticipants = $sortie->getParticipants()->count();
+        $nbMaxParticipants = $sortie->getNbInscriptionsMax();
 
-        return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
+        if($sortie->getEtat()=='Ouvert' && $nbParticipants<$nbMaxParticipants) {
+            $sortie->addParticipant($this->getUser());
+
+
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+//        }else{
+//            alert("Désolé, le nombre maximum de participants est atteint");
+
+
+        }
+            return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
+//        return $this->render('sortie/show.html.twig',[
+//                'nbParticipants'=>$nbParticipants,
+//                'nbMaxParticipants'=>$nbMaxParticipants
+//            ]
+
+
     }
 
     #[Route('/{id}/deleteParticipant', name:'app_sortie_deleteParticipant')]
