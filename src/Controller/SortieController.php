@@ -32,7 +32,7 @@ class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(Security $security, Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
-    {
+    {   $user=$this->getUser();
         $form = $this->createFormBuilder()
             ->add('site', EntityType::class, [
                 'placeholder' => '--Veuillez choisir une ville--',
