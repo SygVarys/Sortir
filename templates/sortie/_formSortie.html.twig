@@ -29,38 +29,46 @@
     </div>
 
     <div class="mb-3">
-        <label for="duree" class="form-label">Description et infos : </label>
+        <label for="description" class="form-label">Description et infos : </label>
         {{ form_widget(form.infosSortie) }}
     </div>
 
+    <div class="mb-3">
+        <label for="Etat" class="form-label">Etat : </label>
+        {{ form_widget(form.etat) }}
+    </div>
 
+    <div class="mb-3">
+        <label for="Lieu" class="form-label">Lieu : </label>
+        {{ form_widget(form.lieu) }}
+    </div>
 
-
+    <a href="{{path('app_lieu')}}" id='Adresse' type="button" class="btn btn-lg btn-secondary">Créer Lieu</a>
     <button type="submit" class="btn btn-lg btn-primary">S'enregistrer</button>
     {{ form_end(form) }}
 
-    {{ form_start(form2) }}
-    <div class="mb-3">
-        <label for="Lieu" class="form-label">Lieu : </label>
-        {{ form_widget(form2.nom) }}
-    </div>
+{#    {{ form_start(form2) }}#}
+{#    <div class="mb-3">#}
+{#        <label for="Lieu" class="form-label">Lieu : </label>#}
+{#        {{ form_widget(form2.nom) }}#}
+{#    </div>#}
 
-    <div class="mb-3">
-        <label for="Ville" class="form-label">Ville : </label>
-        {{ form_widget(form2.ville) }}
-    </div>
+{#    <div class="mb-3">#}
+{#        <label for="Ville" class="form-label">Ville : </label>#}
+{#        {{ form_widget(form2.ville) }}#}
+{#    </div>#}
 
-    <div class="mb-3">
-        <label for="latitude" class="form-label">Latitude : </label>
-        {{ form_widget(form2.latitude) }}
-    </div>
+{#    <div class="mb-3">#}
+{#        <label for="latitude" class="form-label">Latitude : </label>#}
+{#        {{ form_widget(form2.latitude) }}#}
+{#    </div>#}
 
-    <div class="mb-3">
-        <label for="Longitude" class="form-label">Longitude : </label>
-        {{ form_widget(form2.longitude) }}
-    </div>
-    <button id='Adresse' type="button" class="btn btn-lg btn-primary">Chercher le lieu</button>
-    {{ form_end(form2) }}
+{#    <div class="mb-3">#}
+{#        <label for="Longitude" class="form-label">Longitude : </label>#}
+{#        {{ form_widget(form2.longitude) }}#}
+{#    </div>#}
+
+{#    {{ form_end(form2) }}#}
 
 
 

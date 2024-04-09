@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -33,14 +34,9 @@ class SortieRepository extends ServiceEntityRepository
                     JOIN s.lieu l
                     JOIN l.ville v                   
                     WHERE v.nom = :nomVille';
-
-
         if ($filtre['contains']) {
             $dql .= ' AND s.nom LIKE :keyword';
         }
-
-
-
         if ($filtre['dateDebut']) {
             $dql .= ' AND s.dateHeureDebut > :dateDebut';
         }
@@ -50,13 +46,17 @@ class SortieRepository extends ServiceEntityRepository
         if (in_array(1, $filtre['filtre'])) {
             $dql .= ' AND s.organisateur = :idOrganisateur';
         }
-
         if (in_array(2, $filtre['filtre'])) {
             $dql .= ' AND :idUser MEMBER OF s.participants';
         }
         if (in_array(3, $filtre['filtre'])) {
             $dql .= ' AND :idUser NOT MEMBER OF s.participants';
         }
+        if (in_array(4, $filtre['filtre'])) {
+            $dql .= ' AND s.dateHeureDebut < :datePresente';
+        }
+
+        $dql .= ' ORDER BY s.dateHeureDebut DESC';
 
 
 
@@ -77,14 +77,15 @@ class SortieRepository extends ServiceEntityRepository
             //dd($user);
             $query->setParameter('idOrganisateur', $user->getId());
         }
-
         if (in_array(2, $filtre['filtre'])) {
             $query->setParameter('idUser', $user->getId());
         }
         if (in_array(3, $filtre['filtre'])) {
             $query->setParameter('idUser', $user->getId());
         }
-
+        if (in_array(4, $filtre['filtre'])) {
+            $query->setParameter('datePresente', new DateTime());
+        }
 
         return $query->getResult();
 

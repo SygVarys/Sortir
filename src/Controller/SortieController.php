@@ -33,7 +33,6 @@ class SortieController extends AbstractController
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(Security $security, Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
     {
-        $user = $security->getUser();
         $form = $this->createFormBuilder()
             ->add('site', EntityType::class, [
                 'placeholder' => '--Veuillez choisir une ville--',
@@ -58,7 +57,7 @@ class SortieController extends AbstractController
             ])
             ->getForm();
         $form->handleRequest($request);
-        $tableau = [];
+
         if ($form->isSubmitted() && $form->isValid()) {
             $filtre = $form->getData();
             $sorties = $sortieRepository->findByFiltre($filtre, $user);
@@ -99,21 +98,19 @@ class SortieController extends AbstractController
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
-        $lieu = new Lieu();
-        $form2 = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
-        if ($form2->isSubmitted() && $form2->isValid()) {
-            $key = "key=67fW3PVAqC1HMiyOvZ9d9CgiohZBqs67N6hiRelVusAVbhpXr1hxwCBcl65uL2ti";
-
-        }
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            //$user->getSite()->getId();
+            $sortie->setSite($user->getSite());
+            $sortie->setOrganisateur($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -123,7 +120,6 @@ class SortieController extends AbstractController
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
-            'form2' => $form2,
         ]);
     }
 

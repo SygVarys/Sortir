@@ -26,9 +26,9 @@ class LieuType extends AbstractType
                 'class' => Ville::class,
                 'choice_label' => 'nom',
                 'attr' =>['id'=> 'ville'],
-                'allow_add' => true,
+
             ])
-            ->add('latitude', )
+            ->add('latitude' )
             ->add('longitude')
             ->addEventListener(FormEvents::POST_SET_DATA, function (PostSetDataEvent $event): void {
                $test = $event->getData();
