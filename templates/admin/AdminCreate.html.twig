@@ -13,6 +13,11 @@
         {{ form_start(registrationForm) }}
 
         <div class="mb-3">
+            <label for="inputPseudo" class="form-label">Nom</label>
+            {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
             <label for="inputNom" class="form-label">Nom</label>
             {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
         </div>
