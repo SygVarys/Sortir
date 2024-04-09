@@ -174,5 +174,15 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
     }
 
+    #[Route('/{id}/deleteParticipant', name:'app_sortie_deleteParticipant')]
+    public function deleteParticipant(Sortie $sortie, EntityManagerInterface $entityManager): Response
+    {
+        $sortie->removeParticipant($this->getUser());
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
+    }
+
 
 }

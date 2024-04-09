@@ -74,6 +74,12 @@
         <button class="btn btn-success">m'inscrire</button>
     </form>
 
+    {%  if is_granted('ROLE_ADMIN') or sortie.participants.contains(app.user) %}
+    <form method="post" action="{{ path('app_sortie_deleteParticipant', {'id': sortie.id}) }}" onsubmit="return confirm('Etes-vous sûrs de vouloir vous désinscrire à cette sortie ?');">
+        <button class="btn btn-danger">me désinscrire</button>
+    </form>
+    {% endif %}
+
     {%  if is_granted('ROLE_ADMIN') or app.user == sortie.organisateur %}
         {{ include('sortie/_delete_form.html.twig') }}
     {% endif %}
