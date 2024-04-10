@@ -32,7 +32,8 @@ class SortieController extends AbstractController
 {
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(Security $security, Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
-    {   $user=$this->getUser();
+    {
+        $user = $this->getUser();
         $form = $this->createFormBuilder()
             ->add('site', EntityType::class, [
                 'placeholder' => '--Veuillez choisir une ville--',
@@ -63,34 +64,12 @@ class SortieController extends AbstractController
             $user = $this->getUser();
             $sorties = $sortieRepository->findByFiltre($filtre, $user);
 
-//            if (in_array(2, $filtre['filtre']) xor in_array(3, $filtre['filtre'])) {
-//                $sortie = new Sortie();
-//                var_dump(count($sorties));
-//
-//                for ($i = 0; $i < count($sorties); $i++) {
-//                    //var_dump($sorties[$i]);
-//                    $sortie = $sorties[$i];
-//                    $participants = $sortie->getParticipants();
-//                    for ($j = 0; $j < count($participants); $i++) {
-//                        if ($user == $participants[$j]) {
-//                            $tableau[] = $sortie;
-//                        }
-//                    }
-//                }
-//            }
-//
-//            $sorties = $tableau;
-//            //var_dump($tableau);
 
-
-
-
-        return $this->render('sortie/index.html.twig', [
-            'sorties' => $sorties,
-            'form' => $form,
-        ]);
-    }
-
+            return $this->render('sortie/index.html.twig', [
+                'sorties' => $sorties,
+                'form' => $form,
+            ]);
+        }
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
@@ -101,26 +80,26 @@ class SortieController extends AbstractController
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
+        $errors="";
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
-
-
-
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
-            //$user->getSite()->getId();
             $sortie->setSite($user->getSite());
             $sortie->setOrganisateur($user);
             $entityManager->persist($sortie);
             $entityManager->flush();
-
+            $this->addFlash('success', 'Une nouvelle sortie est créée');
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        } else {
+            $errors = $form->getErrors(true);
         }
 
         return $this->render('sortie/new.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'errors' => $errors,
         ]);
     }
 
@@ -162,16 +141,13 @@ class SortieController extends AbstractController
     }
 
 
-
-
-
     #[Route('/{id}/addParticipant', name: 'app_sortie_addParticipant')]
     public function addParticipant(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         $nbParticipants = $sortie->getParticipants()->count();
         $nbMaxParticipants = $sortie->getNbInscriptionsMax();
 
-        if($sortie->getEtat()=='Ouvert' && $nbParticipants<$nbMaxParticipants) {
+        if ($sortie->getEtat() == 'Ouvert' && $nbParticipants < $nbMaxParticipants) {
             $sortie->addParticipant($this->getUser());
 
 
@@ -182,7 +158,7 @@ class SortieController extends AbstractController
 
 
         }
-            return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
+        return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
 //        return $this->render('sortie/show.html.twig',[
 //                'nbParticipants'=>$nbParticipants,
 //                'nbMaxParticipants'=>$nbMaxParticipants
@@ -191,7 +167,7 @@ class SortieController extends AbstractController
 
     }
 
-    #[Route('/{id}/deleteParticipant', name:'app_sortie_deleteParticipant')]
+    #[Route('/{id}/deleteParticipant', name: 'app_sortie_deleteParticipant')]
     public function deleteParticipant(Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         $sortie->removeParticipant($this->getUser());

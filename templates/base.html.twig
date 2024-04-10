@@ -36,6 +36,13 @@
 
     </div>
 </header>
+{# Bloc de flash message #}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ label }}"> {{ message }} </div>
+    {% endfor %}
+{% endfor %}
+
 {# contenu principal de chaque page #}
 <main class="flex-grow-1">
     <div class="container">
