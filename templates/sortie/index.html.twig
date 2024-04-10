@@ -38,7 +38,7 @@
                 <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/y H:i') : '' }}</td>
                 <td class="d-none d-md-table-cell d-md-table-cell-plus">{{ sortie.duree }}</td>
                 <td class="d-none d-md-table-cell d-md-table-cell-plus">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/y') : '' }}</td>
-                <td class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">{{ sortie.nbInscriptionsMax }}</td>
+                <td class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
                 <td class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">{{ sortie.infosSortie }}</td>
                 <td class="d-none d-md-table-cell d-md-table-cell-plus"><a href=" {{ path('app_user',{id:sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></td>
                 <td class="d-none d-md-table-cell d-md-table-cell-plus">{{ sortie.etat }}</td>
