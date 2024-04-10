@@ -26,13 +26,7 @@ class LieuType extends AbstractType
             ->add('rue', TextareaType::class)
             ->add('latitude' )
             ->add('longitude')
-            ->addEventListener(FormEvents::POST_SET_DATA, function (PostSetDataEvent $event): void {
-               $test = $event->getData();
-               if ($test->getNom() !== null) {
-                   dd($test->getNom());}
-
-            })
-            ->add('nomVille', TextType::class,[
+            ->add('Ville', TextType::class,[
                 'mapped' => false,
             ])
 
