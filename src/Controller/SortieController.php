@@ -105,8 +105,6 @@ class SortieController extends AbstractController
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
-
-
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             //$user->getSite()->getId();
@@ -140,7 +138,6 @@ class SortieController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -150,7 +147,7 @@ class SortieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_sortie_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_sortie_delete', methods: ['POST'])]
     public function delete(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $sortie->getId(), $request->getPayload()->get('_token'))) {
@@ -161,8 +158,17 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/annuler/{id}',name:'app_sortie_annuler')]
+    public function annulerSortie(Request $request, Sortie $sortie, EntityManagerInterface $entityManager):Response
+    {
+        $motif = $request->request->get('motif');
+        $sortie->setEtat('annulé');
 
 
+        return $this->render('sortie/annule.html.twig',[
+            'sortie'=>$sortie
+        ]);
+    }
 
 
     #[Route('/{id}/addParticipant', name: 'app_sortie_addParticipant')]
@@ -174,21 +180,10 @@ class SortieController extends AbstractController
         if($sortie->getEtat()=='Ouvert' && $nbParticipants<$nbMaxParticipants) {
             $sortie->addParticipant($this->getUser());
 
-
             $entityManager->persist($sortie);
             $entityManager->flush();
-//        }else{
-//            alert("Désolé, le nombre maximum de participants est atteint");
-
-
         }
             return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
-//        return $this->render('sortie/show.html.twig',[
-//                'nbParticipants'=>$nbParticipants,
-//                'nbMaxParticipants'=>$nbMaxParticipants
-//            ]
-
-
     }
 
     #[Route('/{id}/deleteParticipant', name:'app_sortie_deleteParticipant')]
@@ -200,6 +195,4 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
     }
-
-
 }
