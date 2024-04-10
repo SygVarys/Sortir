@@ -18,7 +18,9 @@
     {% form_theme form 'bootstrap_5_layout.html.twig' %}
     <div class="container">
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.nom) }}
+        {{ form_row(form.rue) }}
+        {{ form_row(form.Ville) }}
     <button class="btn">{{ button_label|default('Enregistrer') }}</button>
     {{ form_end(form) }}
     </div>

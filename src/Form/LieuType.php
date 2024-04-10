@@ -24,8 +24,8 @@ class LieuType extends AbstractType
                'attr' => ['id'=> 'nom'],
             ])
             ->add('rue', TextareaType::class)
-            ->add('latitude' )
-            ->add('longitude')
+//            ->add('latitude' )
+//            ->add('longitude')
             ->add('Ville', TextType::class,[
                 'mapped' => false,
             ])

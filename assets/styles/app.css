@@ -75,7 +75,8 @@ caption {
 }
 
 
-#map { height: 600px; }
+#map {  width: 400px;
+        height: 300px; }
 
 input{
     margin: 10px;
