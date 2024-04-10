@@ -21,6 +21,7 @@ use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,7 +81,7 @@ class SortieController extends AbstractController
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
-        $errors="";
+        $errors = "";
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
@@ -177,5 +178,31 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
     }
 
+    #[Route('/annulerSortie/{id}', name: 'app_sortie_annuler')]
+    public function annulerSortie(Sortie $sortie, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $form = $this->createFormBuilder()
+            ->add('motif', TextareaType::class)
+            ->getForm();
+        $form->handleRequest($request);
+        //$motif = $request->request->get('motif');
+        if ($form->isSubmitted() && $form->isValid()) {
+//            $motif=$form->get('motif')->getData();
+            $motif=$form->getData()['motif'];
+            $sortie->setEtat('Annulé');
+            $sortie->setMotif($motif);
 
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success', "l'événement a bien été annulé");
+            return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
+
+        }
+
+
+        return $this->render('sortie/annule.html.twig', [
+            'sortie' => $sortie,
+            'form' => $form->createView(),
+        ]);
+    }
 }

@@ -39,10 +39,14 @@
                 <th>Organisateur</th>
                 <td>{{ sortie.organisateur.nom }}</td>
             </tr>
-{#            <tr>#}
-{#                <th>Etat</th>#}
-{#                <td>{{ sortie.etat }}</td>#}
-{#            </tr>#}
+            <tr>
+                <th>Etat</th>
+                <td>{{ sortie.etat }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ sortie.motif }}</td>
+            </tr>
         </tbody>
     </table>
 
@@ -68,6 +72,7 @@
 
     {%  if is_granted('ROLE_ADMIN') or app.user == sortie.organisateur %}
         <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" class="btn btn-info">editer une sortie</a>
+        <a href="{{ path('app_sortie_annuler', {'id': sortie.id}) }}" class="btn btn-info">annuler la sortie</a>
     {% endif %}
 
 
