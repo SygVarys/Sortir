@@ -88,7 +88,25 @@
         </tbody>
     </table>
 
-<div id="map"></div>
+    <div class="container">
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ sortie.lieu.nom }}</td>
+            </tr>
+            <tr>
+                <th>Adresse :</th>
+                <td>{{ sortie.lieu.rue }}</td>
+                <td>{{ ville }}</td>
+            </tr>
+        </table>
+
+        <div id="map"></div>
+    </div>
+
+
+
 
     <div>
         <h2> Participants :</h2>

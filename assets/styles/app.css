@@ -82,8 +82,9 @@ input{
     margin: 10px;
 }
 
-#container{
+.container{
     width: 60%;
     height: 60%;
+    grid-auto-flow: 1fr 1fr;
 }
 
