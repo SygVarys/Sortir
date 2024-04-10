@@ -28,6 +28,45 @@ class SortieRepository extends ServiceEntityRepository
     public function findByFiltre($filtre, $user): array
     {
 
+        $q = $this->createQueryBuilder('s');
+            if ($filtre['site']) {
+                $q->andWhere('s.ville = :ville')
+                    ->setParameter('ville', $filtre['site']->getNom());
+            }
+
+            if ($filtre['contains']) {
+                $q->andWhere('s.nom LIKE :keyword')
+                    ->setParameter('keyword', '%' . $filtre['contains'] . '%');
+            }
+            if ($filtre['dateDebut']) {
+                $q->andWhere('s.dateHeureDebut > :dateDebut')
+                    ->setParameter('dateDebut', $filtre['dateDebut']);
+            }
+            if ($filtre['dateFin']) {
+                $q->andWhere('s.dateHeureDebut < :dateFin')
+                    ->setParameter('dateFin', $filtre['dateFin']);
+            }
+            if (in_array(1, $filtre['filtre'])) {
+                $q->andWhere('s.organisateur = :idOrganisateur')
+                    ->setParameter('idOrganisateur', $user->getId());
+            }
+            if (in_array(2, $filtre['filtre'])) {
+                $q->andWhere(':idUser MEMBER OF s.participants')
+                    ->setParameter('idUser', $user->getId());
+
+            }
+            if (in_array(3, $filtre['filtre'])) {
+                $q->andWhere(':idUser NOT MEMBER OF s.participants')
+                    ->setParameter('idUser', $user->getId());
+            }
+            if (in_array(4, $filtre['filtre'])) {
+                $q->andWhere('s.dateHeureDebut < :datePresente')
+                    ->setParameter('datePresente', new DateTime());
+            }
+            $q->orderBy('s.dateHeureDebut');
+            $q->getQuery();
+
+/*
         $entityManager = $this->getEntityManager();
         $dql = 'SELECT s
                     FROM App\Entity\Sortie s
@@ -86,7 +125,7 @@ class SortieRepository extends ServiceEntityRepository
         if (in_array(4, $filtre['filtre'])) {
             $query->setParameter('datePresente', new DateTime());
         }
-
+*/
         return $query->getResult();
 
     }
