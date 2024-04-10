@@ -50,11 +50,10 @@
 {#                    {% endfor %}#}
 {#                </td>#}
                 <td>
-                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}">show</a>
-
+                    <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}" class="btn btn-success btn-sm">show</a>
 
                     {%  if is_granted('ROLE_ADMIN') or app.user == sortie.organisateur %}
-                        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
+                        <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}" class="btn btn-info btn-sm">edit</a>
                     {% endif %}
 
                     {%  if is_granted('ROLE_ADMIN') %}
