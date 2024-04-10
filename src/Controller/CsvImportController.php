@@ -8,10 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CsvImportController extends AbstractController
 {
     #[Route('/csv/import', name: 'app_csv_import')]
+    #[IsGranted('ROLE_ADMIN')]
 
     public function importUsers(Request $request, UserImporter $userImporter): Response
     {
