@@ -23,22 +23,26 @@ class Sortie
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Assert\GreaterThan(propertyPath: 'dateLimiteInscription')]
+    #[Assert\GreaterThan(propertyPath: 'dateLimiteInscription', message:'La date de la sortie doit être supérieure à la date d\'inscription')]
     private ?\DateTimeInterface $dateHeureDebut = null;
 
     #[ORM\Column]
+    #[Assert\GreaterThan(value:0, message:'La durée doit être supérieure à 1 min')]
     private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\GreaterThan('today', message: 'La date limite d\'inscription doit être supérieure à la date d\'aujourd\'hui ')]
     private ?\DateTimeInterface $dateLimiteInscription = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\GreaterThan(value:0, message:'Le nombre d\'inscrit doit être supérieur à 0.')]
     private ?int $nbInscriptionsMax = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $infosSortie = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\Choice(choices: ['En cours', 'Ouvert', 'Fermé', 'En création', 'Annulé'], message: "Cette valeur n'est pas autorisée")]
     private ?string $etat = null;
 
     #[ORM\ManyToOne(inversedBy: 'sorties')]
@@ -55,6 +59,9 @@ class Sortie
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'sortiesParticipant')]
     private Collection $participants;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $motif = null;
 
 
 
@@ -211,6 +218,18 @@ class Sortie
         if ($this->participants->removeElement($participant)) {
             $participant->removeSortiesParticipant($this);
         }
+
+        return $this;
+    }
+
+    public function getMotif(): ?string
+    {
+        return $this->motif;
+    }
+
+    public function setMotif(?string $motif): static
+    {
+        $this->motif = $motif;
 
         return $this;
     }
