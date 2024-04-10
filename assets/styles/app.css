@@ -102,14 +102,16 @@ caption {
 }
 
 
-#map { height: 600px; }
+#map {  width: 400px;
+        height: 300px; }
 
 input{
     margin: 10px;
 }
 
-#container{
+.container{
     width: 60%;
     height: 60%;
+    grid-auto-flow: 1fr 1fr;
 }
 

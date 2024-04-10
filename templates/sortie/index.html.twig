@@ -56,6 +56,11 @@
                     {%  if is_granted('ROLE_ADMIN') or app.user == sortie.organisateur %}
                         <a href="{{ path('app_sortie_edit', {'id': sortie.id}) }}">edit</a>
                     {% endif %}
+
+                    {%  if is_granted('ROLE_ADMIN') %}
+                        {{ include('sortie/_delete_form.html.twig') }}
+                    {% endif %}
+
                 </td>
             </tr>
         {% else %}
