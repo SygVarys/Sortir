@@ -16,15 +16,15 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th class="d-none d-md-table-cell">Id</th>
                 <th>Nom</th>
                 <th>DateHeureDebut</th>
-                <th>Duree</th>
-                <th>DateLimiteInscription</th>
-                <th>NbInscriptionsMax</th>
-                <th>InfosSortie</th>
-                <th>Organisateur</th>
-                <th>Etat</th>
+                <th class="d-none d-md-table-cell d-md-table-cell-plus">Duree</th>
+                <th class="d-none d-md-table-cell d-md-table-cell-plus">DateLimiteInscription</th>
+                <th class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">NbInscriptionsMax</th>
+                <th class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">InfosSortie</th>
+                <th class="d-none d-md-table-cell d-md-table-cell-plus">Organisateur</th>
+                <th class="d-none d-md-table-cell d-md-table-cell-plus">Etat</th>
                 <th>Villes</th>
 {#                <th>Participants</th>#}
                 <th>actions</th>
@@ -33,15 +33,15 @@
         <tbody>
         {% for sortie in sorties %}
             <tr>
-                <td>{{ sortie.id }}</td>
+                <td class="d-none d-md-table-cell">{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/y H:i') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/y') : '' }}</td>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.infosSortie }}</td>
-                <td><a href=" {{ path('app_user',{id:sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></td>
-                <td>{{ sortie.etat }}</td>
+                <td class="d-none d-md-table-cell d-md-table-cell-plus">{{ sortie.duree }}</td>
+                <td class="d-none d-md-table-cell d-md-table-cell-plus">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/y') : '' }}</td>
+                <td class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">{{ sortie.nbInscriptionsMax }}</td>
+                <td class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">{{ sortie.infosSortie }}</td>
+                <td class="d-none d-md-table-cell d-md-table-cell-plus"><a href=" {{ path('app_user',{id:sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></td>
+                <td class="d-none d-md-table-cell d-md-table-cell-plus">{{ sortie.etat }}</td>
                 <td>{{ sortie.lieu.ville.nom }}</td>
 
 {#                <td>#}

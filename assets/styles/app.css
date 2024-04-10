@@ -1,9 +1,27 @@
-@media (max-width: 600px) {
-    .hidden-xs {
-        display: none;
+@media only screen and (max-width: 767px){
+    .table th,
+    .table td {
+        border:none;
     }
 }
 
+
+.table th,
+.table td {
+    border: none;
+}
+
+/* Définir les styles pour .d-md-table-cell-extra à l'intérieur de la media query */
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+    .d-md-table-cell-extra {
+        display: table-cell !important;
+    }
+}
+@media only screen and (min-width: 1201px)  {
+    .d-md-table-cell-plus {
+        display: table-cell !important;
+    }
+}
 
 
 body {
