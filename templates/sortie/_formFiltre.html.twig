@@ -1,5 +1,6 @@
 {{ form_start(form) }}
-<div class="form_wish">
+<div class="form">
+    <div>
     <div class="col">
         {{ form_row(form.site) }}
     </div>
@@ -7,11 +8,16 @@
         {{ form_row(form.contains) }}
     </div>
     <div class="col">
-{{ form_row(form.dateDebut) }}
-</div>
-<div class="col">
-{{ form_row(form.dateFin) }}
-</div>
-<button class="btn">{{ button_label|default('Rechercher') }}</button>
+        {{ form_row(form.dateDebut) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.dateFin) }}
+    </div>
+    </div>
+    <div>
+        {{ form_row(form.filtre) }}
+    </div>
+
+    <button class="btn">{{ button_label|default('Rechercher') }}</button>
 </div>
 {{ form_end(form) }}
