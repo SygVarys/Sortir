@@ -118,12 +118,14 @@ class SortieController extends AbstractController
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
     public function show(Sortie $sortie, VilleRepository $repository): Response
     {
+
 //        $sortie->getLieu()->getLatitude();
 //        $sortie->getLieu()->getLongitude();
 //
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
             'ville' => $repository->find($sortie->getLieu()->getVille())->getNom(),
+            'errors' => "",
         ]);
     }
 
@@ -163,29 +165,33 @@ class SortieController extends AbstractController
 
 
     #[Route('/{id}/addParticipant', name: 'app_sortie_addParticipant')]
-    public function addParticipant(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function addParticipant(VilleRepository $villeRepository, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
+
+        $errors="";
         $nbParticipants = $sortie->getParticipants()->count();
         $nbMaxParticipants = $sortie->getNbInscriptionsMax();
+        $today = new \dateTime();
 
-        if ($sortie->getEtat() == 'Ouvert' && $nbParticipants < $nbMaxParticipants) {
+        if ($sortie->getEtat() == 'Ouvert' && $nbParticipants < $nbMaxParticipants && $today <= $sortie->getDateLimiteInscription()) {
             $sortie->addParticipant($this->getUser());
-
+            var_dump("tout va bien");
 
             $entityManager->persist($sortie);
             $entityManager->flush();
-//        }else{
-//            alert("Désolé, le nombre maximum de participants est atteint");
 
+            $this->addFlash('success', 'Votre participation a bien été enregistrée');
+        }else{
+            $errors = "Désolé, inscription impossible";
+
+            var_dump("tout va mal");
 
         }
-        return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
-//        return $this->render('sortie/show.html.twig',[
-//                'nbParticipants'=>$nbParticipants,
-//                'nbMaxParticipants'=>$nbMaxParticipants
-//            ]
-
-
+        return $this->redirectToRoute('app_sortie_show', [
+            'id' => $sortie->getId(),
+            'errors'=>$errors,
+            'sortie'=>$sortie,
+            'ville' => $villeRepository->find($sortie->getLieu()->getVille())->getNom(),]);
     }
 
     #[Route('/{id}/deleteParticipant', name: 'app_sortie_deleteParticipant')]
