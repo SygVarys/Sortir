@@ -12,19 +12,19 @@
     <h1>Sortie index</h1>
 
     {{ include('sortie/_formFiltre.html.twig') }}
-
+<div class="test">
     <table class="table">
         <thead>
             <tr>
                 <th class="d-none d-md-table-cell">Id</th>
                 <th>Nom</th>
                 <th>DateHeureDebut</th>
-                <th class="d-none d-md-table-cell d-md-table-cell-plus">Duree</th>
-                <th class="d-none d-md-table-cell d-md-table-cell-plus">DateLimiteInscription</th>
-                <th class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">NbInscriptionsMax</th>
-                <th class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">InfosSortie</th>
-                <th class="d-none d-md-table-cell d-md-table-cell-plus">Organisateur</th>
-                <th class="d-none d-md-table-cell d-md-table-cell-plus">Etat</th>
+                <th class="d-none d-md-table-cell ">Duree</th>
+                <th class="d-none d-md-table-cell">Date Limite Inscription</th>
+                <th class="d-none d-md-table-cell">Nb Inscriptions Max</th>
+                <th class="d-none d-md-table-cell ">Infos Sortie</th>
+                <th class="d-none d-md-table-cell">Organisateur</th>
+                <th class="d-none d-md-table-cell">Etat</th>
                 <th>Villes</th>
 {#                <th>Participants</th>#}
                 <th>actions</th>
@@ -36,12 +36,12 @@
                 <td class="d-none d-md-table-cell">{{ sortie.id }}</td>
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d/m/y H:i') : '' }}</td>
-                <td class="d-none d-md-table-cell d-md-table-cell-plus">{{ sortie.duree }}</td>
-                <td class="d-none d-md-table-cell d-md-table-cell-plus">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/y') : '' }}</td>
-                <td class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
-                <td class="d-none d-md-table-cell d-md-table-cell-extra d-md-table-cell-plus">{{ sortie.infosSortie }}</td>
-                <td class="d-none d-md-table-cell d-md-table-cell-plus"><a href=" {{ path('app_user',{id:sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></td>
-                <td class="d-none d-md-table-cell d-md-table-cell-plus">{{ sortie.etat }}</td>
+                <td class="d-none d-md-table-cell ">{{ sortie.duree }}</td>
+                <td class="d-none d-md-table-cell">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d/m/y') : '' }}</td>
+                <td class="d-none d-md-table-cell">{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
+                <td class="d-none d-md-table-cell ">{{ sortie.infosSortie }}</td>
+                <td class="d-none d-md-table-cell "><a href=" {{ path('app_user',{id:sortie.organisateur.id}) }}">{{ sortie.organisateur.nom }}</a></td>
+                <td class="d-none d-md-table-cell">{{ sortie.etat }}</td>
                 <td>{{ sortie.lieu.ville.nom }}</td>
 
 {#                <td>#}
@@ -69,6 +69,6 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_sortie_new') }}">Create new</a>
+</div>
+    <a class="d-none d-md-table-cell " href="{{ path('app_sortie_new') }}">Create new</a>
 {% endblock %}
