@@ -40,7 +40,7 @@ class SortieController extends AbstractController
                 'placeholder' => '--Veuillez choisir une ville--',
                 'class' => Ville::class,
                 'choice_label' => 'nom',
-                'required' => true,
+                'required' => false,
 
             ])
             ->add('contains', SearchType::class, [
