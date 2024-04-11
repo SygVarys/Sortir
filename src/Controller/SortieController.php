@@ -119,6 +119,7 @@ class SortieController extends AbstractController
     #[Route('/{id}/edit', name: 'app_sortie_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
+        $errors="";
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
@@ -126,11 +127,14 @@ class SortieController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('app_sortie_index', [], Response::HTTP_SEE_OTHER);
+        }else{
+            $errors = $form->getErrors(true);
         }
 
         return $this->render('sortie/edit.html.twig', [
             'sortie' => $sortie,
             'form' => $form,
+            'errors' => $errors,
         ]);
     }
 

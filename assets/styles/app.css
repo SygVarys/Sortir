@@ -6,10 +6,6 @@
 }
 
 
-.table th,
-.table td {
-    border: none;
-}
 
 /* Définir les styles pour .d-md-table-cell-extra à l'intérieur de la media query */
 @media only screen and (min-width: 768px) and (max-width: 1200px) {

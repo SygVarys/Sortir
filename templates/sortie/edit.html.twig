@@ -4,10 +4,13 @@
 
 {% block body %}
     <h1>Edit Sortie</h1>
+    {% for error in errors %}
+        <div class="alert alert-danger">{{ error.message }}</div>
+    {% endfor %}
 
     {{ include('sortie/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_sortie_index') }}" class="btn btn-info">back to list</a>
+    <a href="{{ path('app_sortie_index') }}" class="btn btn-info">Retour à la liste des sorties</a>
 
-    {{ include('sortie/_delete_form.html.twig') }}
+{#    {{ include('sortie/_delete_form.html.twig') }}#}
 {% endblock %}
