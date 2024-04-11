@@ -33,8 +33,9 @@ class SortieRepository extends ServiceEntityRepository
 
         $q = $this->createQueryBuilder('s');
         $q->join('s.lieu', 'l');
+        $q->join('l.ville', 'v');
             if ($filtre['site']) {
-                $q->andWhere('l.ville = :ville')
+                $q->andWhere('v.nom = :ville')
                     ->setParameter('ville', $filtre['site']->getNom());
             }
 
