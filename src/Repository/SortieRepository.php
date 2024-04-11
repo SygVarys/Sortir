@@ -24,6 +24,9 @@ class SortieRepository extends ServiceEntityRepository
 
     /**
      * @return Sortie[] Returns an array of Sortie objects
+     * Filtrage des sorties à l'aide de Query Builder :
+     * part ville, recherche de carctères, dates, organisation, participation, dates passées
+     *
      */
     public function findByFiltre($filtre, $user): array
     {

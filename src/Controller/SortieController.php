@@ -11,6 +11,7 @@ use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\This;
@@ -34,6 +35,10 @@ class SortieController extends AbstractController
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(Security $security, Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
     {
+        // passage de la date du jour moins un pour les sorties archivées
+        $date = new dateTime();
+        $date = date_modify($date, '-1 month');
+
         $user = $this->getUser();
         $form = $this->createFormBuilder()
             ->add('site', EntityType::class, [
@@ -69,18 +74,23 @@ class SortieController extends AbstractController
             return $this->render('sortie/index.html.twig', [
                 'sorties' => $sorties,
                 'form' => $form,
+                'date' => $date,
             ]);
         }
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
             'form' => $form,
+            'date' => $date,
         ]);
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
+
+
+
         $errors = "";
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
@@ -101,6 +111,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'form' => $form,
             'errors' => $errors,
+
         ]);
     }
 
@@ -135,6 +146,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'form' => $form,
             'errors' => $errors,
+
         ]);
     }
 

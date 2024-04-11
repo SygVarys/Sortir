@@ -49,6 +49,9 @@
 {#                        <li><a href=" {{ path('app_user',{id:user.id}) }}">{{ user.nom }}</a></li>#}
 {#                    {% endfor %}#}
 {#                </td>#}
+
+
+                {% if date < sortie.dateHeureDebut  %}
                 <td>
                     <a href="{{ path('app_sortie_show', {'id': sortie.id}) }}" class="btn btn-success btn-sm">show</a>
 
@@ -60,7 +63,9 @@
                         {{ include('sortie/_delete_form.html.twig') }}
                     {% endif %}
 
+
                 </td>
+                {%  endif %}
             </tr>
         {% else %}
             <tr>
