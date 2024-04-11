@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class LieuController extends AbstractController
 {
     #[Route('/lieu', name: 'app_lieu')]
-    public function creer(Request $request, VilleRepository $villeRepository,  EntityManagerInterface $entityManager, LieuRepository $lieuRepository): Response
+    public function creer(Request $request, VilleRepository $villeRepository, EntityManagerInterface $entityManager, LieuRepository $lieuRepository): Response
     {
         $lieu = new Lieu();
         $ville = new Ville();
@@ -38,26 +38,28 @@ class LieuController extends AbstractController
 //            $data = $response['response']['data'][0];
 
             $url = 'https://api-adresse.data.gouv.fr/search/?q=';
-            $adresse = implode("+", explode(" ",$lieu->getRue()));
+            $adresse = implode("+", explode(" ", $lieu->getRue()));
             $adresse .= '+' . $villeNom;
-            var_dump($url.$adresse);
+            var_dump($url . $adresse);
             $client = new Client(['verify' => false]);
-            $response = $client->request('GET', $url.$adresse);
+            $response = $client->request('GET', $url . $adresse);
 
             if ($response->getStatusCode() === 200) {
                 $results = json_decode($response->getBody(), true);
-                var_dump($results['features'][0]);
                 $ville->setNom($results['features'][0]['properties']['city']);
                 $ville->setCodePostal($results['features'][0]['properties']['postcode']);
-                var_dump($ville);
-                $entityManager->persist($ville);
-                $entityManager->flush();
+                if (!$villeRepository->findBy(['nom' => $ville->getNom(), 'codePostal' => $ville->getCodePostal()])) {
+                    $entityManager->persist($ville);
+                    $entityManager->flush();
+                } else {
+                    $ville = $villeRepository->findOneBy(['nom' => $ville->getNom(), 'codePostal' => $ville->getCodePostal()]);
+                }
                 $lieu->setVille($ville);
                 $lieu->setLatitude($results['features'][0]['geometry']['coordinates'][1]);
                 $lieu->setLongitude($results['features'][0]['geometry']['coordinates'][0]);
                 $entityManager->persist($lieu);
-                $entityManager->flush();}
-
+                $entityManager->flush();
+            }
 
 
             return $this->redirectToRoute('app_sortie_new', [], Response::HTTP_SEE_OTHER);
