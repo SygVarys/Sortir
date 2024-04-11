@@ -118,10 +118,15 @@ class SortieController extends AbstractController
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
     public function show(Sortie $sortie, VilleRepository $repository): Response
     {
+        $date = new dateTime();
+        $date = date_modify($date, '-1 month');
 
-//        $sortie->getLieu()->getLatitude();
-//        $sortie->getLieu()->getLongitude();
-//
+        if ($sortie->getDateHeureDebut() < $date){
+            header('HTTP/1.0 404 Not Found');
+            echo "<h1>404 File not found</h1>";
+            exit();
+        }
+
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
             'ville' => $repository->find($sortie->getLieu()->getVille())->getNom(),
