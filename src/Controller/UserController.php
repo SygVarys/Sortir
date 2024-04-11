@@ -21,6 +21,8 @@ use Symfony\Component\Validator\Constraints\File;
 
 class UserController extends AbstractController
 {
+
+//    affiche le profil public d'un utilisateur ( accessible à tous les autres utilisateurs)
     #[Route('/user/{id}', name: 'app_user')]
     public function infosUtilisateur(int $id, UserRepository $userRepository, User $user): Response
     {
@@ -32,16 +34,7 @@ class UserController extends AbstractController
         ]);
     }
 
-//    #[Route('/profil', name: 'app_profil')]
-//    #[IsGranted('ROLE_USER')]
-//    public function profil(Security $security): Response
-//    {
-//        $user= $security->getUser();
-//        return $this->render('user/profil.html.twig',[
-//            'user' => $user
-//        ]);
-//    }
-
+//    permet de modifier son profil utilisateur et ajouter une photo
     #[Route('/profil/{id}', name: 'user_update',requirements: ['id' =>'\d+'])]
     #[IsGranted('ROLE_USER')]
     public function update(int $id, UserRepository $userRepository, User $user, Request $request, EntityManagerInterface $em,SluggerInterface $slugger): Response

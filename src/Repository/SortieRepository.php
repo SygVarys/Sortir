@@ -24,13 +24,18 @@ class SortieRepository extends ServiceEntityRepository
 
     /**
      * @return Sortie[] Returns an array of Sortie objects
+     * Filtrage des sorties à l'aide de Query Builder :
+     * part ville, recherche de carctères, dates, organisation, participation, dates passées
+     *
      */
     public function findByFiltre($filtre, $user): array
     {
 
         $q = $this->createQueryBuilder('s');
+        $q->join('s.lieu', 'l');
+        $q->join('l.ville', 'v');
             if ($filtre['site']) {
-                $q->andWhere('s.ville = :ville')
+                $q->andWhere('v.nom = :ville')
                     ->setParameter('ville', $filtre['site']->getNom());
             }
 
@@ -50,24 +55,22 @@ class SortieRepository extends ServiceEntityRepository
                 $q->andWhere('s.organisateur = :idOrganisateur')
                     ->setParameter('idOrganisateur', $user->getId());
             }
-            if (in_array(2, $filtre['filtre'])) {
-                $q->andWhere(':idUser MEMBER OF s.participants')
-                    ->setParameter('idUser', $user->getId());
+            if (in_array(2, $filtre['filtre']) xor in_array(3, $filtre['filtre'])) {
+                (in_array(2, $filtre['filtre'])) ? $q->andWhere(':idUser MEMBER OF s.participants') :  $q->andWhere(':idUser NOT MEMBER OF s.participants');
+                    $q->setParameter('idUser', $user->getId());
 
-            }
-            if (in_array(3, $filtre['filtre'])) {
-                $q->andWhere(':idUser NOT MEMBER OF s.participants')
-                    ->setParameter('idUser', $user->getId());
             }
             if (in_array(4, $filtre['filtre'])) {
                 $q->andWhere('s.dateHeureDebut < :datePresente')
                     ->setParameter('datePresente', new DateTime());
             }
-            $q->orderBy('s.dateHeureDebut');
-            $q->getQuery();
+            $q->orderBy('s.dateHeureDebut', 'DESC');
+
 
 /*
-        $entityManager = $this->getEntityManager();
+ *      Code en DQL, la même chose que précédemment, c'est beau mais c'est long !!!! Sans doûte optimisable!
+ */
+/*      $entityManager = $this->getEntityManager();
         $dql = 'SELECT s
                     FROM App\Entity\Sortie s
                     JOIN s.lieu l
@@ -126,7 +129,8 @@ class SortieRepository extends ServiceEntityRepository
             $query->setParameter('datePresente', new DateTime());
         }
 */
-        return $query->getResult();
+       // return $query->getResult();
+        return $q->getQuery()->getResult();
 
     }
 

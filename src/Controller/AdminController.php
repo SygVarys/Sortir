@@ -23,15 +23,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
-//    #[Route('/', name: 'app_admin')]
-//    public function index(): Response
-//    {
-//        return $this->render('admin/index.html.twig', [
-//            'controller_name' => 'AdminController',
-//        ]);
-//    }
 
-
+//    affiche la liste de tous les utilisateurs, accessible uniquement pour l'admin
     #[Route('/liste', name:'app_admin_liste')]
     #[IsGranted('ROLE_ADMIN')]
     public function listerUser(UserRepository $userRepository):Response
@@ -41,6 +34,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+//    permet de modifier le profil d'un utilisateur, changer le rôle etc
     #[Route('/edit/{id}', name: 'app_admin_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function modifierUtilisateur(User $user, Request $request, /*UserPasswordHasherInterface $userPasswordHasher,*/ EntityManagerInterface $entityManager):Response
@@ -61,26 +55,15 @@ class AdminController extends AbstractController
 
 
         ->add('isActif');
-//        ->add('isAdmin');
-
-
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-//            $user->setPassword(
-//                $userPasswordHasher->hashPassword(
-//                    $user,
-//                    $form->get('password')->getData()
-//                )
-//            );
-//            $user->setRoles(['ROLE_USER']);
-
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_liste'/*, [], Response::HTTP_SEE_OTHER*/);
+            return $this->redirectToRoute('app_admin_liste');
         }
 
         return $this->render('admin/new.html.twig', [
@@ -89,8 +72,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-
-
+// affiche le profil d'un utilisateur
     #[Route('/detail/{id}', name: 'app_admin_show', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function show(User $user): Response
@@ -100,6 +82,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+//    supprime un utilisateur de la base
     #[Route('/delete/{id}', name: 'app_admin_delete', methods: ['GET','POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
@@ -109,16 +92,15 @@ class AdminController extends AbstractController
             $entityManager->flush();
 //        }
 
-        return $this->redirectToRoute('app_admin_liste'/*, [], Response::HTTP_SEE_OTHER*/);
+        return $this->redirectToRoute('app_admin_liste');
     }
 
+//    permet à l'admin de créer un nouvel utilisateur
     #[Route('/AdminCreate', name: 'app_admin_create')]
     public function adminCreate(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
-
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user)
-
 
             ->add('roles', ChoiceType::class, [
                 'multiple' => true,
@@ -129,15 +111,7 @@ class AdminController extends AbstractController
                     'User' => 'ROLE_USER',
                 ]
             ]);
-
-//        ->add('reset', ResetType::class, [
-//        'label' => 'Réinitialiser',
-//        'attr' => ['class' => 'btn btn-secondary']
-//    ]);
-
         $form->handleRequest($request);
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -146,18 +120,13 @@ class AdminController extends AbstractController
                     $user,
                     $form->get('plainPassword')->getData()
                 )
-
             );
-
             $user->setIsActif('1');
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // do anything else you need here, like send an email
-
             return $this->redirectToRoute('app_admin_liste');
         }
-
         return $this->render('admin/AdminCreate.html.twig', [
             'registrationForm' => $form,
         ]);

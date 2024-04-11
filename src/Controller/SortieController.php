@@ -11,6 +11,7 @@ use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use App\Repository\UserRepository;
 use App\Repository\VilleRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\This;
@@ -34,13 +35,17 @@ class SortieController extends AbstractController
     #[Route('/', name: 'app_sortie_index', methods: ['GET', 'POST'])]
     public function index(Security $security, Request $request, SortieRepository $sortieRepository, VilleRepository $villeRepository): Response
     {
+        // passage de la date du jour moins un pour les sorties archivées
+        $date = new dateTime();
+        $date = date_modify($date, '-1 month');
+
         $user = $this->getUser();
         $form = $this->createFormBuilder()
             ->add('site', EntityType::class, [
                 'placeholder' => '--Veuillez choisir une ville--',
                 'class' => Ville::class,
                 'choice_label' => 'nom',
-                'required' => true,
+                'required' => false,
 
             ])
             ->add('contains', SearchType::class, [
@@ -69,18 +74,23 @@ class SortieController extends AbstractController
             return $this->render('sortie/index.html.twig', [
                 'sorties' => $sorties,
                 'form' => $form,
+                'date' => $date,
             ]);
         }
 
         return $this->render('sortie/index.html.twig', [
             'sorties' => $sortieRepository->findAll(),
             'form' => $form,
+            'date' => $date,
         ]);
     }
 
     #[Route('/new', name: 'app_sortie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
+
+
+
         $errors = "";
         $sortie = new Sortie();
         $form = $this->createForm(SortieType::class, $sortie);
@@ -101,18 +111,26 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'form' => $form,
             'errors' => $errors,
+
         ]);
     }
 
     #[Route('/{id}', name: 'app_sortie_show', methods: ['GET'])]
     public function show(Sortie $sortie, VilleRepository $repository): Response
     {
-//        $sortie->getLieu()->getLatitude();
-//        $sortie->getLieu()->getLongitude();
-//
+        $date = new dateTime();
+        $date = date_modify($date, '-1 month');
+
+        if ($sortie->getDateHeureDebut() < $date){
+            header('HTTP/1.0 404 Not Found');
+            echo "<h1>404 File not found</h1>";
+            exit();
+        }
+
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
             'ville' => $repository->find($sortie->getLieu()->getVille())->getNom(),
+            'errors' => "",
         ]);
     }
 
@@ -135,6 +153,7 @@ class SortieController extends AbstractController
             'sortie' => $sortie,
             'form' => $form,
             'errors' => $errors,
+
         ]);
     }
 
@@ -151,29 +170,33 @@ class SortieController extends AbstractController
 
 
     #[Route('/{id}/addParticipant', name: 'app_sortie_addParticipant')]
-    public function addParticipant(Request $request, Sortie $sortie, EntityManagerInterface $entityManager): Response
+    public function addParticipant(VilleRepository $villeRepository, Sortie $sortie, EntityManagerInterface $entityManager): Response
     {
+
+        $errors="";
         $nbParticipants = $sortie->getParticipants()->count();
         $nbMaxParticipants = $sortie->getNbInscriptionsMax();
+        $today = new \dateTime();
 
-        if ($sortie->getEtat() == 'Ouvert' && $nbParticipants < $nbMaxParticipants) {
+        if ($sortie->getEtat() == 'Ouvert' && $nbParticipants < $nbMaxParticipants && $today <= $sortie->getDateLimiteInscription()) {
             $sortie->addParticipant($this->getUser());
-
+            var_dump("tout va bien");
 
             $entityManager->persist($sortie);
             $entityManager->flush();
-//        }else{
-//            alert("Désolé, le nombre maximum de participants est atteint");
 
+            $this->addFlash('success', 'Votre participation a bien été enregistrée');
+        }else{
+            $errors = "Désolé, inscription impossible";
+
+            var_dump("tout va mal");
 
         }
-        return $this->redirectToRoute('app_sortie_show', ['id' => $sortie->getId()]);
-//        return $this->render('sortie/show.html.twig',[
-//                'nbParticipants'=>$nbParticipants,
-//                'nbMaxParticipants'=>$nbMaxParticipants
-//            ]
-
-
+        return $this->redirectToRoute('app_sortie_show', [
+            'id' => $sortie->getId(),
+            'errors'=>$errors,
+            'sortie'=>$sortie,
+            'ville' => $villeRepository->find($sortie->getLieu()->getVille())->getNom(),]);
     }
 
     #[Route('/{id}/deleteParticipant', name: 'app_sortie_deleteParticipant')]

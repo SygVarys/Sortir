@@ -38,6 +38,11 @@
 {% block body %}
     <h1>Sortie</h1>
 
+    {% for error in errors %}
+        <div class="alert alert-danger">{{ error.message }}</div>
+        {% else %}
+
+    {% endfor %}
 
 
     <input type="hidden" id="latitude" value="{{ sortie.lieu.latitude }}">
@@ -67,7 +72,7 @@
             </tr>
             <tr>
                 <th>NbInscriptionsMax</th>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
+                <td>{{ sortie.participants|length }}/{{ sortie.nbInscriptionsMax }}</td>
             </tr>
             <tr>
                 <th>InfosSortie</th>
