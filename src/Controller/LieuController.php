@@ -30,19 +30,14 @@ class LieuController extends AbstractController
 
             $villeNom = $form->get('Ville')->getData();
             $lieu = $form->getData();
-//            var_dump($lieu);
-//            var_dump($ville);
-//            $get_data = callAPI('GET', 'https://api.example.com/get_url/'.$user['User']['customer_id'], false);
-//            $response = json_decode($get_data, true);
-//            $errors = $response['response']['errors'];
-//            $data = $response['response']['data'][0];
-
+            // Appel de l'API Gouvernementale pour récupérer l'adresse
+            // Création de la requête
             $url = 'https://api-adresse.data.gouv.fr/search/?q=';
             $adresse = implode("+", explode(" ", $lieu->getRue()));
             $adresse .= '+' . $villeNom;
-            var_dump($url . $adresse);
             $client = new Client(['verify' => false]);
             $response = $client->request('GET', $url . $adresse);
+
 
             if ($response->getStatusCode() === 200) {
                 $results = json_decode($response->getBody(), true);
