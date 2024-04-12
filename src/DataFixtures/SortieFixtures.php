@@ -31,7 +31,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
 //            $sec = strtotime($this->faker->date());
 //            $date = date("d/m/y H:i", $sec);
             $sortie->setDateLimiteInscription($this->faker->dateTime());
-            $sortie->setNbInscriptionsMax($this->faker->randomDigit());
+            $sortie->setNbInscriptionsMax($this->faker->randomDigit()+1);
             $sortie->setInfosSortie($this->faker->sentence());
             $sortie->setEtat("En cours");
             $sortie->setLieu($this->lieuRepository->findOneBy([]));
